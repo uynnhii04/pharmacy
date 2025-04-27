@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author Giai Cuu Li San
  */
-public class Promotion {
+public class PromoDTO {
      private String promotionId;
     private String programName;
     private String promotionType;
@@ -22,10 +22,10 @@ public class Promotion {
     private Date endDate;
 
     // Constructor không tham số
-    public Promotion() {}
+    public PromoDTO() {}
 
     // Constructor đầy đủ tham số
-    public Promotion(String promotionId, String programName, String promotionType, String product, 
+    public PromoDTO(String promotionId, String programName, String promotionType, String product, 
                      Double discountPercent, Integer minAccumulatedPoints, Double discountAmount, 
                      Date startDate, Date endDate) {
         this.promotionId = promotionId;

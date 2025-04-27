@@ -4,7 +4,7 @@
  */
 package com.pharmacy.app.GUI.Promo;
 
-import com.pharmacy.app.DTO.Promotion;
+import com.pharmacy.app.DTO.PromoDTO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -21,7 +21,7 @@ public class PromoDetail extends javax.swing.JDialog {
      * @param parent
      * @param promo
      */
-    public PromoDetail(java.awt.Frame parent, Promotion promo) {
+    public PromoDetail(java.awt.Frame parent, PromoDTO promo) {
         super(parent, "Chi tiết khuyến mãi", true);
         initComponents();
         fillFields(promo);
@@ -198,7 +198,7 @@ public class PromoDetail extends javax.swing.JDialog {
         }
     }
     
-    private void fillFields(Promotion promo) {
+    private void fillFields(PromoDTO promo) {
         // Điền dữ liệu vào các trường text field
         txtPromotionId.setText(promo.getPromotionId());
         txtProgramName.setText(promo.getProgramName());
@@ -257,7 +257,7 @@ public class PromoDetail extends javax.swing.JDialog {
             public void run() {
                 try {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    Promotion promo = new Promotion("KM01", "Sale Ngày Nhà Thuốc VN", "Điểm tích lũy", null,
+                    PromoDTO promo = new PromoDTO("KM01", "Sale Ngày Nhà Thuốc VN", "Điểm tích lũy", null,
                             null, 1000, 50.0, dateFormat.parse("2025-04-01"), dateFormat.parse("2025-04-10"));
                     PromoDetail dialog = new PromoDetail(new javax.swing.JFrame(), promo);
                     dialog.addWindowListener(new java.awt.event.WindowAdapter() {

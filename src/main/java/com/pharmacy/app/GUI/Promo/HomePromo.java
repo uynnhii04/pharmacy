@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.pharmacy.app.GUI.Promo;
-import com.pharmacy.app.DTO.Promotion;
+import com.pharmacy.app.DTO.PromoDTO;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Giai Cuu Li San
  */
 public class HomePromo extends javax.swing.JPanel {
-    private ArrayList<Promotion> promoList;
+    private ArrayList<PromoDTO> promoList;
     /**
      * Creates new form HomePromo
      */
@@ -212,11 +212,11 @@ public class HomePromo extends javax.swing.JPanel {
         
         try {
             // Thêm dữ liệu khuyến mãi vào ArrayList
-            promoList.add(new Promotion("KM01", "Sale Ngày Nhà Thuốc VN", "Điểm tích lũy", null, 
+            promoList.add(new PromoDTO("KM01", "Sale Ngày Nhà Thuốc VN", "Điểm tích lũy", null, 
                                     null, 1000, 50.0, dateFormat.parse("2025-04-01"), dateFormat.parse("2025-04-10")));
-            promoList.add(new Promotion("KM02", "Giảm Giá Ngày Quốc Tế", "Mặt hàng", "Thuốc XYZ", 
+            promoList.add(new PromoDTO("KM02", "Giảm Giá Ngày Quốc Tế", "Mặt hàng", "Thuốc XYZ", 
                                     15.0, null, null, dateFormat.parse("2025-05-01"), dateFormat.parse("2025-05-05")));
-            promoList.add(new Promotion("KM03", "Khuyến Mãi Mùa Hè", "Điểm tích lũy", null, 
+            promoList.add(new PromoDTO("KM03", "Khuyến Mãi Mùa Hè", "Điểm tích lũy", null, 
                                     null, 500, 25.0, dateFormat.parse("2025-06-01"), dateFormat.parse("2025-06-30")));
         } catch (Exception e) {
             e.printStackTrace();
@@ -235,7 +235,7 @@ public class HomePromo extends javax.swing.JPanel {
         // Duyệt qua danh sách khuyến mãi và thêm dữ liệu vào bảng (chỉ 5 trường cần hiển thị)
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         
-        for (Promotion promo : promoList) {
+        for (PromoDTO promo : promoList) {
             model.addRow(new Object[]{
                 promo.getPromotionId(),  // Mã khuyến mãi
                 promo.getProgramName(),   // Tên chương trình khuyến mãi
@@ -247,7 +247,7 @@ public class HomePromo extends javax.swing.JPanel {
     }
 
     private void showPromoDetails(int row) {
-        Promotion promo = promoList.get(row);
+        PromoDTO promo = promoList.get(row);
         
         PromoDetail dialog = new PromoDetail((JFrame) SwingUtilities.getWindowAncestor(this), promo);
         dialog.setVisible(true);
