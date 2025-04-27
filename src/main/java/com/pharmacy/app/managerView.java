@@ -187,7 +187,7 @@ public class managerView extends javax.swing.JFrame {
         btnBack.setMinimumSize(new java.awt.Dimension(50, 50));
 
         backicon.setBackground(new java.awt.Color(0, 51, 102));
-        backicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menu1.png"))); // NOI18N
+        backicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/back.png"))); // NOI18N
         backicon.setText("jLabel4");
         backicon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -230,7 +230,7 @@ public class managerView extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 421, Short.MAX_VALUE)
+            .addGap(0, 415, Short.MAX_VALUE)
         );
 
         MenuIcon.add(jPanel1);
@@ -240,7 +240,7 @@ public class managerView extends javax.swing.JFrame {
         btnUser.setPreferredSize(new java.awt.Dimension(45, 45));
 
         usericon.setBackground(new java.awt.Color(0, 51, 102));
-        usericon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/user1.png"))); // NOI18N
+        usericon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/user.png"))); // NOI18N
         usericon.setPreferredSize(new java.awt.Dimension(31, 35));
         usericon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

@@ -179,7 +179,7 @@ public class homepage extends javax.swing.JFrame {
         btnBack.setMinimumSize(new java.awt.Dimension(50, 50));
 
         backicon.setBackground(new java.awt.Color(204, 204, 204));
-        backicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menu1.png"))); // NOI18N
+        backicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/back.png"))); // NOI18N
         backicon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 backiconMouseClicked(evt);
@@ -205,7 +205,7 @@ public class homepage extends javax.swing.JFrame {
             btnBackLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btnBackLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(backicon, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addComponent(backicon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -231,7 +231,7 @@ public class homepage extends javax.swing.JFrame {
         btnUser3.setPreferredSize(new java.awt.Dimension(45, 45));
 
         usericon.setBackground(new java.awt.Color(0, 153, 153));
-        usericon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/user1.png"))); // NOI18N
+        usericon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/user.png"))); // NOI18N
         usericon.setPreferredSize(new java.awt.Dimension(31, 35));
         usericon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

@@ -4,8 +4,12 @@
  */
 package com.pharmacy.app.GUI.Supplier;
 
+import com.pharmacy.app.BUS.SupplierBUS;
+import com.pharmacy.app.DTO.SupplierDTO;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,6 +22,26 @@ public class SupplierList extends javax.swing.JPanel {
      */
     public SupplierList() {
         initComponents();
+        loadSupplierList();
+
+    }
+    
+    
+    private void loadSupplierList(){
+        SupplierBUS supplierBUS = new SupplierBUS();
+        List<SupplierDTO> suppliersList = supplierBUS.getAllSuppliers();
+
+        DefaultTableModel model = (DefaultTableModel) tbSupplierList.getModel();
+        model.setRowCount(0);
+        
+        for (SupplierDTO s: suppliersList){
+            model.addRow(new Object[]{
+                s.getId(),
+                s.getName(),
+                s.getPhone(),
+                s.getAddress()
+            });
+        }
     }
 
     /**

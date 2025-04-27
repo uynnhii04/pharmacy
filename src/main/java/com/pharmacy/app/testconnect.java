@@ -23,7 +23,7 @@ public class testconnect {
             // Chuỗi kết nối
             String dbUrl = "jdbc:sqlserver://localhost:1433;databaseName=pharmacy;encrypt=true;trustServerCertificate=true";
             String username = "sa";
-            String password = "12345";
+            String password = "123456";
 
             // Kết nối với SQL Server
             Connection con = DriverManager.getConnection(dbUrl, username, password);
