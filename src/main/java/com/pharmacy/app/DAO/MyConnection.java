@@ -52,6 +52,22 @@ public class MyConnection {
         }
     }
     
+    public ResultSet runPreparedQuery(String sql, Object... params) {
+        try {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setObject(i + 1, params[i]); // Gán từng tham số vào vị trí ?
+            }
+
+            return pstmt.executeQuery(); // Chỉ dùng cho SELECT
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    
     public int prepareUpdate(String sql, Object...params) {
         try {
             PreparedStatement prestm= con.prepareStatement(sql);

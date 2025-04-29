@@ -4,18 +4,39 @@
  */
 package com.pharmacy.app.GUI.Promo;
 
+import com.pharmacy.app.BUS.PromotionBUS;
+import com.pharmacy.app.DTO.PromotionDTO;
+import java.awt.Frame;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Giai Cuu Li San
  */
 public class AddPromo extends javax.swing.JDialog {
+    private HomePromo homepromo;
+    private PromotionBUS promoBUS = new PromotionBUS();
 
-    /**
-     * Creates new form AddPromo1
-     */
-    public AddPromo(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+
+    public AddPromo(HomePromo homePromo) {
+        super((Frame) null, "Thêm khuyến mãi", true);
+        this.homepromo = homePromo;
+        
+        // Khởi tạo thành phần giao diện
         initComponents();
+        
+        // Gán mã khuyến mãi được tạo tự động
+        String newPromoId = promoBUS.generateNewPromoID();
+        txtPromotionId.setText(newPromoId);
+        
+        // Gán ngày hiện tại làm ngày bắt đầu khuyến mãi
+        Date today = new Date();
+        startDatePicker.setDate(today);
+        
         updated();
         setLocationRelativeTo(null);
     }
@@ -35,30 +56,28 @@ public class AddPromo extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        txtCodePromo = new javax.swing.JTextField();
-        txtNamePromo = new javax.swing.JTextField();
-        cbxChoosePromo = new javax.swing.JComboBox<>();
-        cbxProduct = new javax.swing.JComboBox<>();
-        txtPercentPromo = new javax.swing.JTextField();
-        txtPoint = new javax.swing.JTextField();
-        txtValuePromo = new javax.swing.JTextField();
-        dateStart = new com.toedter.calendar.JDateChooser();
-        dateEnd = new com.toedter.calendar.JDateChooser();
+        txtPromotionId = new javax.swing.JTextField();
+        txtProgramName = new javax.swing.JTextField();
+        cbxPromotionType = new javax.swing.JComboBox<>();
+        txtDiscountPercent = new javax.swing.JTextField();
+        txtMinAccumulatedPoint = new javax.swing.JTextField();
+        txtDiscountAmount = new javax.swing.JTextField();
+        startDatePicker = new com.toedter.calendar.JDateChooser();
+        endDatePicker = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Thêm khuyến mãi");
-        setMinimumSize(new java.awt.Dimension(400, 500));
-        setPreferredSize(new java.awt.Dimension(500, 550));
+        setMinimumSize(new java.awt.Dimension(550, 550));
+        setPreferredSize(new java.awt.Dimension(550, 550));
         getContentPane().setLayout(new java.awt.BorderLayout(20, 0));
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -68,12 +87,12 @@ public class AddPromo extends javax.swing.JDialog {
         lblTitle.setPreferredSize(new java.awt.Dimension(400, 50));
         getContentPane().add(lblTitle, java.awt.BorderLayout.PAGE_START);
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(306, 410));
+        jPanel1.setMinimumSize(new java.awt.Dimension(400, 410));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 410));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 10));
 
         jPanel3.setPreferredSize(new java.awt.Dimension(130, 360));
-        jPanel3.setLayout(new java.awt.GridLayout(9, 1, 0, 10));
+        jPanel3.setLayout(new java.awt.GridLayout(8, 1, 0, 10));
 
         jLabel2.setText("Mã khuyến mãi");
         jPanel3.add(jLabel2);
@@ -83,10 +102,6 @@ public class AddPromo extends javax.swing.JDialog {
 
         jLabel8.setText("Loại khuyến mãi");
         jPanel3.add(jLabel8);
-
-        jLabel4.setText("Mặt hàng áp dụng");
-        jLabel4.setPreferredSize(new java.awt.Dimension(150, 16));
-        jPanel3.add(jLabel4);
 
         jLabel5.setText("Giảm giá (%)");
         jPanel3.add(jLabel5);
@@ -107,36 +122,46 @@ public class AddPromo extends javax.swing.JDialog {
         jPanel1.add(jPanel3);
 
         jPanel4.setMinimumSize(new java.awt.Dimension(300, 350));
-        jPanel4.setPreferredSize(new java.awt.Dimension(200, 360));
-        jPanel4.setLayout(new java.awt.GridLayout(9, 1, 5, 10));
+        jPanel4.setPreferredSize(new java.awt.Dimension(300, 360));
+        jPanel4.setLayout(new java.awt.GridLayout(8, 1, 5, 10));
 
-        txtCodePromo.setPreferredSize(new java.awt.Dimension(200, 22));
-        jPanel4.add(txtCodePromo);
-        jPanel4.add(txtNamePromo);
+        txtPromotionId.setEnabled(false);
+        txtPromotionId.setPreferredSize(new java.awt.Dimension(200, 22));
+        jPanel4.add(txtPromotionId);
 
-        cbxChoosePromo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Điểm tích lũy", "Mặt hàng" }));
-        cbxChoosePromo.setPreferredSize(new java.awt.Dimension(72, 25));
-        cbxChoosePromo.addActionListener(new java.awt.event.ActionListener() {
+        txtProgramName.setPreferredSize(new java.awt.Dimension(200, 22));
+        jPanel4.add(txtProgramName);
+
+        cbxPromotionType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đổi điểm", "Giảm phần trăm" }));
+        cbxPromotionType.setPreferredSize(new java.awt.Dimension(72, 25));
+        cbxPromotionType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxChoosePromoActionPerformed(evt);
+                cbxPromotionTypeActionPerformed(evt);
             }
         });
-        jPanel4.add(cbxChoosePromo);
+        jPanel4.add(cbxPromotionType);
 
-        cbxProduct.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Thuốc A", "Thuốc B", "Thuốc C" }));
-        cbxProduct.setPreferredSize(new java.awt.Dimension(72, 25));
-        jPanel4.add(cbxProduct);
+        txtDiscountPercent.setPreferredSize(new java.awt.Dimension(73, 25));
+        jPanel4.add(txtDiscountPercent);
 
-        txtPercentPromo.setPreferredSize(new java.awt.Dimension(73, 25));
-        jPanel4.add(txtPercentPromo);
+        txtMinAccumulatedPoint.setPreferredSize(new java.awt.Dimension(73, 25));
+        jPanel4.add(txtMinAccumulatedPoint);
 
-        txtPoint.setPreferredSize(new java.awt.Dimension(73, 25));
-        jPanel4.add(txtPoint);
+        txtDiscountAmount.setPreferredSize(new java.awt.Dimension(73, 25));
+        txtDiscountAmount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDiscountAmountActionPerformed(evt);
+            }
+        });
+        jPanel4.add(txtDiscountAmount);
+        jPanel4.add(startDatePicker);
 
-        txtValuePromo.setPreferredSize(new java.awt.Dimension(73, 25));
-        jPanel4.add(txtValuePromo);
-        jPanel4.add(dateStart);
-        jPanel4.add(dateEnd);
+        endDatePicker.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                endDatePickerPropertyChange(evt);
+            }
+        });
+        jPanel4.add(endDatePicker);
 
         jPanel1.add(jPanel4);
 
@@ -147,11 +172,21 @@ public class AddPromo extends javax.swing.JDialog {
         btnCancel.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         btnCancel.setText("Hủy");
         btnCancel.setPreferredSize(new java.awt.Dimension(80, 28));
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnCancel);
 
         btnSave.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         btnSave.setText("Lưu");
         btnSave.setPreferredSize(new java.awt.Dimension(80, 28));
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnSave);
 
         jPanel1.add(jPanel2);
@@ -161,23 +196,147 @@ public class AddPromo extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbxChoosePromoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxChoosePromoActionPerformed
+    private void cbxPromotionTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxPromotionTypeActionPerformed
         updated();
-    }//GEN-LAST:event_cbxChoosePromoActionPerformed
+    }//GEN-LAST:event_cbxPromotionTypeActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        try {
+            // Lấy giá trị từ các thành phần giao diện
+            String promotionId = txtPromotionId.getText();
+            String programName = txtProgramName.getText();
+            String promotionType = cbxPromotionType.getSelectedItem().toString();
+            String discountPercentText = txtDiscountPercent.getText();
+            String minAccumulatedPointsText = txtMinAccumulatedPoint.getText();
+            String discountAmountText = txtDiscountAmount.getText();
+
+            // ==== Kiểm tra bắt buộc: Tên chương trình ====
+            if (programName == null || programName.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập tên chương trình khuyến mãi!");
+                return;
+            }
+
+            // ==== Kiểm tra bắt buộc: Ngày bắt đầu và ngày kết thúc ====
+            Date startDateRaw = startDatePicker.getDate();
+            Date endDateRaw = endDatePicker.getDate();
+
+            if (startDateRaw == null || endDateRaw == null) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày bắt đầu và ngày kết thúc!");
+                return;
+            }
+
+            // ==== Chuyển đổi sang LocalDate ====
+            LocalDate startDate = startDateRaw.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+            LocalDate endDate = endDateRaw.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+            // ==== Kiểm tra logic: Ngày bắt đầu phải trước ngày kết thúc ====
+            if (startDate.isAfter(endDate)) {
+                JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải trước ngày kết thúc!");
+                return;
+            }
+
+            // ==== Kiểm tra loại khuyến mãi và validate các trường cần thiết ====
+            Float discountPercent = null;
+            Float minAccumulatedPoints = null;
+            Double discountAmount = null;
+
+            if (promotionType.equals("Đổi điểm")) {
+                // Đổi điểm: Bắt buộc nhập điểm tích lũy và số tiền giảm giá
+
+                if (minAccumulatedPointsText == null || minAccumulatedPointsText.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập điểm tích lũy tối thiểu cho chương trình 'Đổi điểm'.");
+                    return;
+                }
+                try {
+                    minAccumulatedPoints = Float.parseFloat(minAccumulatedPointsText.trim());
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Điểm tích lũy không hợp lệ! Vui lòng nhập số.");
+                    return;
+                }
+
+                if (discountAmountText == null || discountAmountText.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập số tiền giảm giá cho chương trình 'Đổi điểm'.");
+                    return;
+                }
+                try {
+                    discountAmount = Double.parseDouble(discountAmountText.trim());
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Số tiền giảm giá không hợp lệ! Vui lòng nhập số.");
+                    return;
+                }
+
+            } else {
+                // Các loại khác: Bắt buộc nhập phần trăm giảm giá
+                if (discountPercentText == null || discountPercentText.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập phần trăm giảm giá cho chương trình Giảm phần trăm!");
+                    return;
+                }
+                try {
+                    discountPercent = Float.parseFloat(discountPercentText.trim());
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Phần trăm giảm giá không hợp lệ! Vui lòng nhập số.");
+                    return;
+                }
+            }
+
+            // ==== Tạo đối tượng DTO từ dữ liệu đã kiểm tra ====
+            PromotionDTO promo = new PromotionDTO(
+                promotionId,
+                programName,
+                promotionType,
+                discountPercent,
+                minAccumulatedPoints,
+                discountAmount,
+                startDate,
+                endDate
+            );
+
+            // ==== Gọi tầng BUS để thêm mới khuyến mãi ====
+            boolean success = promoBUS.addPromo(promo);
+
+            // ==== Thông báo kết quả ====
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Thêm mã khuyến mãi thành công!");
+                homepromo.loadData();
+                dispose(); // Đóng form
+            } else {
+                JOptionPane.showMessageDialog(this, "Thêm mã khuyến mãi thất bại!");
+            }
+
+        } catch (Exception e) {
+            // Bắt các lỗi không mong muốn để tránh crash
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void txtDiscountAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDiscountAmountActionPerformed
+        
+    }//GEN-LAST:event_txtDiscountAmountActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void endDatePickerPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_endDatePickerPropertyChange
+
+    }//GEN-LAST:event_endDatePickerPropertyChange
     
     private void updated() {
-        String selectedValue = (String) cbxChoosePromo.getSelectedItem();
+        String selectedValue = (String) cbxPromotionType.getSelectedItem();
         
-        if ("Điểm tích lũy".equals(selectedValue)) {
-            cbxProduct.setEnabled(false);
-            txtPercentPromo.setEnabled(false);
-            txtPoint.setEnabled(true);
-            txtValuePromo.setEnabled(true);
+        if ("Đổi điểm".equals(selectedValue)) {
+            txtDiscountPercent.setEnabled(false);
+            txtMinAccumulatedPoint.setEnabled(true);
+            txtDiscountAmount.setEnabled(true);
         } else {
-            cbxProduct.setEnabled(true);
-            txtPercentPromo.setEnabled(true);
-            txtPoint.setEnabled(false);
-            txtValuePromo.setEnabled(false);
+            txtDiscountPercent.setEnabled(true);
+            txtMinAccumulatedPoint.setEnabled(false);
+            txtDiscountAmount.setEnabled(false);
         }
     }
     /**
@@ -214,7 +373,7 @@ public class AddPromo extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 //                AddPromo dialog = new AddPromo(new javax.swing.JFrame(), true);
-                AddPromo dialog = new AddPromo(null, true);
+                AddPromo dialog = new AddPromo(null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -229,14 +388,11 @@ public class AddPromo extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<String> cbxChoosePromo;
-    private javax.swing.JComboBox<String> cbxProduct;
-    private com.toedter.calendar.JDateChooser dateEnd;
-    private com.toedter.calendar.JDateChooser dateStart;
+    private javax.swing.JComboBox<String> cbxPromotionType;
+    private com.toedter.calendar.JDateChooser endDatePicker;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -247,10 +403,11 @@ public class AddPromo extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblTitle;
-    private javax.swing.JTextField txtCodePromo;
-    private javax.swing.JTextField txtNamePromo;
-    private javax.swing.JTextField txtPercentPromo;
-    private javax.swing.JTextField txtPoint;
-    private javax.swing.JTextField txtValuePromo;
+    private com.toedter.calendar.JDateChooser startDatePicker;
+    private javax.swing.JTextField txtDiscountAmount;
+    private javax.swing.JTextField txtDiscountPercent;
+    private javax.swing.JTextField txtMinAccumulatedPoint;
+    private javax.swing.JTextField txtProgramName;
+    private javax.swing.JTextField txtPromotionId;
     // End of variables declaration//GEN-END:variables
 }
