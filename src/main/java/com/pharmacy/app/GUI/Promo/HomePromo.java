@@ -254,6 +254,7 @@ public class HomePromo extends javax.swing.JPanel{
 
     private void btnRefeshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefeshActionPerformed
         cbSort.setSelectedItem("Tất cả");
+        txtSearch.setText("");
         loadData();
     }//GEN-LAST:event_btnRefeshActionPerformed
 
