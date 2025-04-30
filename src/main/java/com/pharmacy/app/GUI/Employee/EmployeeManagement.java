@@ -4,20 +4,138 @@
  */
 package com.pharmacy.app.GUI.Employee;
 
+import com.pharmacy.app.BUS.EmployeeBUS;
+import com.pharmacy.app.DTO.EmployeeDTO;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author phong
  */
 public class EmployeeManagement extends javax.swing.JPanel {
+    private EmployeeBUS employeeBUS;
+    private final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /**
      * Creates new form EmployeeManagement
      */
     public EmployeeManagement() {
         initComponents();
+        setupListeners();
+        initBUS();
+        loadEmployeeData();
+    }
+    
+    private void initBUS() {
+        employeeBUS = new EmployeeBUS();
+        employeeBUS.loadEmployeeList();
+    }
+    
+    private void setupListeners() {
+        // Setup search text field focus listener
+        txtSearchEmployee.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (txtSearchEmployee.getText().equals("Tìm kiếm")) {
+                    txtSearchEmployee.setText("");
+                    txtSearchEmployee.setFont(new java.awt.Font("Segoe UI", 0, 12));
+                    txtSearchEmployee.setForeground(new java.awt.Color(0, 0, 0));
+                }
+            }
+            
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (txtSearchEmployee.getText().isEmpty()) {
+                    txtSearchEmployee.setText("Tìm kiếm");
+                    txtSearchEmployee.setFont(new java.awt.Font("Segoe UI", 2, 12));
+                    txtSearchEmployee.setForeground(new java.awt.Color(153, 153, 153));
+                }
+            }
+        });
+        
+        // Setup search text field key listener
+        txtSearchEmployee.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                String keyword = txtSearchEmployee.getText();
+                if (!keyword.equals("Tìm kiếm")) {
+                    searchEmployees(keyword);
+                }
+            }
+        });
+        
+        // Setup combobox listener
+        cbEmployee.addActionListener((e) -> {
+            filterEmployeesByGender();
+        });
+        
+    }
+    
+    /**
+     * Load all employee data into the table
+     */
+    private void loadEmployeeData() {
+        ArrayList<EmployeeDTO> employees = employeeBUS.getEmployeeList();
+        displayEmployees(employees);
+    }
+    
+    /**
+     * Search employees based on keyword
+     */
+    private void searchEmployees(String keyword) {
+        if (keyword.isEmpty() || keyword.equals("Tìm kiếm")) {
+            loadEmployeeData();
+            return;
+        }
+        
+        ArrayList<EmployeeDTO> searchResults = employeeBUS.searchEmployees(keyword);
+        displayEmployees(searchResults);
+    }
+    
+    /**
+     * Filter employees by gender
+     */
+    private void filterEmployeesByGender() {
+        String selectedOption = (String) cbEmployee.getSelectedItem();
+        
+        if (selectedOption.equals("Tất cả")) {
+            loadEmployeeData();
+        } else if (selectedOption.equals("Nam")) {
+            ArrayList<EmployeeDTO> maleEmployees = employeeBUS.filterEmployeesByGender(true);
+            displayEmployees(maleEmployees);
+        } else if (selectedOption.equals("Nữ")) {
+            ArrayList<EmployeeDTO> femaleEmployees = employeeBUS.filterEmployeesByGender(false);
+            displayEmployees(femaleEmployees);
+        }
+    }
+    
+    /**
+     * Display employees in the table
+     */
+    private void displayEmployees(ArrayList<EmployeeDTO> employees) {
+        DefaultTableModel model = (DefaultTableModel) tblEmployees.getModel();
+        model.setRowCount(0); // Clear current data
+        
+        for (EmployeeDTO employee : employees) {
+            Object[] row = {
+                employee.getEmployeeID(),
+                employee.getName(),
+                employee.getDob().format(DATE_FORMAT),
+                employee.getGender() ? "Nam" : "Nữ",
+                employee.getEmail(),
+                employee.getPhone(),
+                employee.getAddress()
+            };
+            model.addRow(row);
+        }
     }
 
     /**
@@ -49,7 +167,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
         btnPdfContract = new javax.swing.JButton();
         pnlContract2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbContracts = new javax.swing.JTable();
+        tblContracts = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setToolTipText("");
@@ -139,11 +257,14 @@ public class EmployeeManagement extends javax.swing.JPanel {
                 "Mã nhân viên", "Họ tên", "Ngày sinh", "Giới tính", "Email", "SĐT", "Địa chỉ"
             }
         ));
-        tblEmployees.setFocusable(false);
+        tblEmployees.setColumnSelectionAllowed(true);
         tblEmployees.setMinimumSize(new java.awt.Dimension(500, 80));
         tblEmployees.setPreferredSize(new java.awt.Dimension(1180, 600));
+        tblEmployees.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblEmployees.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblEmployees.setShowGrid(true);
         jScrollPane1.setViewportView(tblEmployees);
+        tblEmployees.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         javax.swing.GroupLayout pnlEmployee2Layout = new javax.swing.GroupLayout(pnlEmployee2);
         pnlEmployee2.setLayout(pnlEmployee2Layout);
@@ -222,8 +343,8 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setPreferredSize(new java.awt.Dimension(1180, 500));
 
-        tbContracts.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tbContracts.setModel(new javax.swing.table.DefaultTableModel(
+        tblContracts.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblContracts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -240,12 +361,12 @@ public class EmployeeManagement extends javax.swing.JPanel {
                 "Mã hợp đồng", "Mã nhân viên", "Ngày ký kết", "Ngày bắt đầu", "Ngày kết thúc", "Chức vụ"
             }
         ));
-        tbContracts.setFocusable(false);
-        tbContracts.setMinimumSize(new java.awt.Dimension(500, 80));
-        tbContracts.setPreferredSize(new java.awt.Dimension(1180, 500));
-        tbContracts.setRowHeight(30);
-        tbContracts.setShowGrid(true);
-        jScrollPane2.setViewportView(tbContracts);
+        tblContracts.setFocusable(false);
+        tblContracts.setMinimumSize(new java.awt.Dimension(500, 80));
+        tblContracts.setPreferredSize(new java.awt.Dimension(1180, 500));
+        tblContracts.setRowHeight(30);
+        tblContracts.setShowGrid(true);
+        jScrollPane2.setViewportView(tblContracts);
 
         javax.swing.GroupLayout pnlContract2Layout = new javax.swing.GroupLayout(pnlContract2);
         pnlContract2.setLayout(pnlContract2Layout);
@@ -268,7 +389,19 @@ public class EmployeeManagement extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRefeshEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefeshEmployeeActionPerformed
-        // TODO add your handling code here:
+        // Reset the search field
+        txtSearchEmployee.setText("Tìm kiếm");
+        txtSearchEmployee.setFont(new java.awt.Font("Segoe UI", 2, 12));
+        txtSearchEmployee.setForeground(new java.awt.Color(153, 153, 153));
+
+        // Reset the gender filter combobox
+        cbEmployee.setSelectedIndex(0);
+
+        // Reload the employee data from the database
+        employeeBUS.loadEmployeeList();
+
+        // Display the refreshed employee data
+        loadEmployeeData();
     }//GEN-LAST:event_btnRefeshEmployeeActionPerformed
 
     private void btnAddEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEmployeeActionPerformed
@@ -301,7 +434,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
     private javax.swing.JPanel pnlEmployee1;
     private javax.swing.JPanel pnlEmployee2;
     private javax.swing.JPanel pnlEmployees;
-    private javax.swing.JTable tbContracts;
+    private javax.swing.JTable tblContracts;
     private javax.swing.JTable tblEmployees;
     private javax.swing.JTabbedPane tpEmployeeManagement;
     private javax.swing.JTextField txtSearchContract;

@@ -4,20 +4,33 @@
  */
 package com.pharmacy.app.GUI.Employee;
 
+import com.pharmacy.app.BUS.EmployeeBUS;
+import com.pharmacy.app.DTO.EmployeeDTO;
+import com.pharmacy.app.Utils.EmployeeValidation;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author phong
  */
 public class UpdateEmployee extends javax.swing.JDialog {
-
+    
     /**
      * Creates new form UpdateEmployee
      */
-    public UpdateEmployee(java.awt.Frame parent, boolean modal) {
+    public UpdateEmployee(java.awt.Frame parent, boolean modal, EmployeeDTO employee) {
         super(parent, modal);
         initComponents();
     }
 
+    private UpdateEmployee(JFrame jFrame, boolean b) {
+        super(jFrame, b);
+        initComponents();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,6 +83,11 @@ public class UpdateEmployee extends javax.swing.JDialog {
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnDelete.setForeground(new java.awt.Color(255, 255, 255));
         btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         pnlUpdateButton.add(btnDelete);
 
         btnCancel.setBackground(new java.awt.Color(153, 153, 153));
@@ -280,7 +298,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+        dispose(); // Close dialog
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
@@ -306,6 +324,10 @@ public class UpdateEmployee extends javax.swing.JDialog {
     private void txtAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddressActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAddressActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
