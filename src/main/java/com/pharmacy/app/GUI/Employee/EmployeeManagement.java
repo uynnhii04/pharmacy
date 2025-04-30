@@ -6,6 +6,7 @@ package com.pharmacy.app.GUI.Employee;
 
 import com.pharmacy.app.BUS.EmployeeBUS;
 import com.pharmacy.app.DTO.EmployeeDTO;
+import com.pharmacy.app.DAO.EmployeeDAO;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
@@ -22,6 +23,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class EmployeeManagement extends javax.swing.JPanel {
     private EmployeeBUS employeeBUS;
+    private EmployeeDAO employeeDAO = new EmployeeDAO();
+    private EmployeeDTO employeeDTO;
     private final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /**
@@ -256,13 +259,25 @@ public class EmployeeManagement extends javax.swing.JPanel {
             new String [] {
                 "Mã nhân viên", "Họ tên", "Ngày sinh", "Giới tính", "Email", "SĐT", "Địa chỉ"
             }
-        ));
-        tblEmployees.setColumnSelectionAllowed(true);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblEmployees.setFocusable(false);
         tblEmployees.setMinimumSize(new java.awt.Dimension(500, 80));
         tblEmployees.setPreferredSize(new java.awt.Dimension(1180, 600));
         tblEmployees.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblEmployees.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblEmployees.setShowGrid(true);
+        tblEmployees.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblEmployeesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblEmployees);
         tblEmployees.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -415,6 +430,22 @@ public class EmployeeManagement extends javax.swing.JPanel {
         addConDialog.setLocationRelativeTo(null);
         addConDialog.setVisible(true);
     }//GEN-LAST:event_btnAddContractActionPerformed
+
+    private void tblEmployeesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmployeesMouseClicked
+        int selectedRow = tblEmployees.getSelectedRow();
+        System.out.println(selectedRow);
+        if (selectedRow != -1){
+            // Lấy dữ liệu từ các cột trong dòng được chọn
+            String id = tblEmployees.getValueAt(selectedRow, 0).toString();
+            // Tạo đối tượng SupplierDTO từ dữ liệu đã lấy
+            System.out.println("ID được chọn: " + id);
+            EmployeeDTO selectedEmployee = employeeBUS.getEmployeeByID(id);
+            System.out.println("Employee: " + selectedEmployee);
+            UpdateEmployee detailDialog = new UpdateEmployee((JFrame) SwingUtilities.getWindowAncestor(this), true, selectedEmployee);
+            detailDialog.setLocationRelativeTo(null);
+            detailDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_tblEmployeesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

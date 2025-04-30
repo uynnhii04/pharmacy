@@ -17,15 +17,30 @@ import javax.swing.JOptionPane;
  * @author phong
  */
 public class UpdateEmployee extends javax.swing.JDialog {
-    
+    private EmployeeDTO employeeDTO;
+    private EmployeeBUS employeeBUS = new EmployeeBUS();
+    private final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     /**
      * Creates new form UpdateEmployee
+     * @param parent
+     * @param modal
+     * @param employee
      */
     public UpdateEmployee(java.awt.Frame parent, boolean modal, EmployeeDTO employee) {
         super(parent, modal);
         initComponents();
+        this.employeeDTO = employee;
+        setData(employee);
     }
-
+    private void setData(EmployeeDTO employee) {
+        txtEmployeeID.setText(employee.getEmployeeID());
+        txtName.setText(employee.getName());
+        txtPhone.setText(employee.getPhone());
+        txtDOB.setText(employee.getDob().format(DATE_FORMAT));
+        txtEmail.setText(employee.getEmail());
+        txtAddress.setText(String.valueOf(employee.getAddress()));
+    }
     private UpdateEmployee(JFrame jFrame, boolean b) {
         super(jFrame, b);
         initComponents();
