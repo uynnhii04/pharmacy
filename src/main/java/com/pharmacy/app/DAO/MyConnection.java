@@ -22,12 +22,12 @@ public class MyConnection {
     public boolean openConnection() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=pharmacy;trustServerCertificate=true";
+            String url = "jdbc:sqlserver://localhost:1433;databaseName=pharmacy;encrypt=true;trustServerCertificate=true";
             String user = "sa";
             String password = "123456";
+            
+        // Tao ket noi
             con = DriverManager.getConnection(url, user, password);
-
             stm = con.createStatement();
             return true;
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class MyConnection {
         }
     }
 
-    public ResultSet runQuerry(String st) {
+    public ResultSet runQuery(String st) {
         try {
             return stm.executeQuery(st);
         } catch (Exception e) {
@@ -60,7 +60,21 @@ public class MyConnection {
             }
             return prestm.executeUpdate();
         } catch (Exception e) {
+            e.printStackTrace();
             return 0;
+        }
+    }
+    
+    public ResultSet prepareQuery(String sql, Object... params) {
+        try {
+            PreparedStatement prestm = con.prepareStatement(sql);
+            for (int i = 0; i < params.length; i++) {
+                prestm.setObject(i + 1, params[i]);
+            }
+            return prestm.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -71,5 +85,4 @@ public class MyConnection {
             e.printStackTrace();
         }
     }
-    
 }

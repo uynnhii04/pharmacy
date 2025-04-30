@@ -73,7 +73,7 @@ public class EmployeeDAO implements DAOinterface<EmployeeDTO> {
         ArrayList<EmployeeDTO> employeeList = new ArrayList<>();
         myConnection.openConnection();
         String query = "SELECT * FROM employees WHERE is_deleted = 0";
-        ResultSet rs = myConnection.runQuerry(query);
+        ResultSet rs = myConnection.runQuery(query);
         try {
             while (rs.next()) {
                 EmployeeDTO employee = extractEmployeeFromResultSet(rs);
@@ -93,7 +93,8 @@ public class EmployeeDAO implements DAOinterface<EmployeeDTO> {
         myConnection.openConnection();
         String query = "SELECT * FROM employees WHERE employee_id = ? AND is_deleted = 0";
         try {
-            ResultSet rs = myConnection.runQuerry("SELECT * FROM employees WHERE employeeID = '" + employeeID + "' AND isDeleted = 0");
+//            ResultSet rs = myConnection.runQuery("SELECT * FROM employees WHERE employeeID = '" + employeeID + "' AND isDeleted = 0");
+            ResultSet rs = myConnection.prepareQuery(query, employeeID);
             if (rs.next()) {
                 employee = extractEmployeeFromResultSet(rs);
             }
@@ -115,7 +116,7 @@ public class EmployeeDAO implements DAOinterface<EmployeeDTO> {
                 + "phone_number LIKE '%" + keyword + "%' OR "
                 + "address LIKE '%" + keyword + "%') "
                 + "AND is_deleted = 0";
-        ResultSet rs = myConnection.runQuerry(query);
+        ResultSet rs = myConnection.runQuery(query);
         try {
             while (rs.next()) {
                 EmployeeDTO employee = extractEmployeeFromResultSet(rs);
@@ -133,7 +134,7 @@ public class EmployeeDAO implements DAOinterface<EmployeeDTO> {
         ArrayList<EmployeeDTO> employeeList = new ArrayList<>();
         myConnection.openConnection();
         String query = "SELECT * FROM employees WHERE gender = " + (gender ? "1" : "0") + " AND is_deleted = 0";
-        ResultSet rs = myConnection.runQuerry(query);
+        ResultSet rs = myConnection.runQuery(query);
         try {
             while (rs.next()) {
                 EmployeeDTO employee = extractEmployeeFromResultSet(rs);
@@ -156,7 +157,7 @@ public class EmployeeDAO implements DAOinterface<EmployeeDTO> {
         myConnection.openConnection();
         // Query to select all employee IDs, including deleted ones
         String query = "SELECT employee_id FROM employees";
-        ResultSet rs = myConnection.runQuerry(query);
+        ResultSet rs = myConnection.runQuery(query);
         try {
             while (rs.next()) {
                 String id = rs.getString("employee_id");
@@ -190,7 +191,7 @@ public class EmployeeDAO implements DAOinterface<EmployeeDTO> {
         boolean exists = false;
 
         try {
-            ResultSet rs = myConnection.runQuerry(query);
+            ResultSet rs = myConnection.runQuery(query);
             if (rs.next()) {
                 exists = rs.getInt("count") > 0;
             }
@@ -214,7 +215,7 @@ public class EmployeeDAO implements DAOinterface<EmployeeDTO> {
         boolean exists = false;
 
         try {
-            ResultSet rs = myConnection.runQuerry(query);
+            ResultSet rs = myConnection.runQuery(query);
             if (rs.next()) {
                 exists = rs.getInt("count") > 0;
             }
