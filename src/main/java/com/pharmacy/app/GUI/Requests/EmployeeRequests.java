@@ -4,7 +4,6 @@
  */
 package com.pharmacy.app.GUI.Requests;
 
-import com.pharmacy.app.GUI.Sales.PaymentDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 

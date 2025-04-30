@@ -5,17 +5,10 @@
 package com.pharmacy.app;
 
 import com.pharmacy.app.GUI.Authorization.AuthorizationManagement;
-import com.pharmacy.app.GUI.Customer.CustomerList;
 import com.pharmacy.app.GUI.Employee.EmployeeManagement;
 import com.pharmacy.app.GUI.Employee.EmployeeProfile;
-import com.pharmacy.app.GUI.Importing.Invoices;
-import com.pharmacy.app.GUI.Importing.PurchaseOrder;
-import com.pharmacy.app.GUI.Product.MedicalProducts;
 import java.awt.*;
 import javax.swing.*;
-import com.pharmacy.app.GUI.Promo.*;
-import com.pharmacy.app.GUI.Sales.HomeSales;
-import com.pharmacy.app.GUI.Supplier.SupplierList;
 import com.pharmacy.app.GUI.User.UserInfo;
 import com.pharmacy.app.GUI.User.UserManagement;
 
@@ -32,13 +25,10 @@ public class homepage extends javax.swing.JFrame {
     private Color colorEntered = new Color(120,168,191);
     private Color colorExited = new Color(0,102,153);
     private CardLayout cardlayout = new CardLayout();
-    private HomeSales homesales = new HomeSales();
     
     public homepage() {
         initComponents();
         this.setLocationRelativeTo(null);
-        ContentPn.add(homesales, "Sales");
-        switchToPanel("Sales");
     }
 
     /**
@@ -539,8 +529,7 @@ public class homepage extends javax.swing.JFrame {
     }//GEN-LAST:event_saleBtnMouseExited
 
     private void saleBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saleBtnMouseClicked
-        ContentPn.add(homesales, "Sales");
-        switchToPanel("Sales");
+
     }//GEN-LAST:event_saleBtnMouseClicked
 
     private void cusBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cusBtnActionPerformed
@@ -559,8 +548,7 @@ public class homepage extends javax.swing.JFrame {
     }//GEN-LAST:event_cusBtnMouseEntered
 
     private void cusBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cusBtnMouseClicked
-        ContentPn.add(new CustomerList(), "Customer");
-        switchToPanel("Customer");
+
     }//GEN-LAST:event_cusBtnMouseClicked
 
     private void promoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_promoBtnActionPerformed
@@ -579,8 +567,7 @@ public class homepage extends javax.swing.JFrame {
     }//GEN-LAST:event_promoBtnMouseEntered
 
     private void promoBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_promoBtnMouseClicked
-        ContentPn.add(new HomePromo(), "Promo");
-        switchToPanel("Promo");
+
     }//GEN-LAST:event_promoBtnMouseClicked
 
     private void productBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productBtnActionPerformed
@@ -599,8 +586,7 @@ public class homepage extends javax.swing.JFrame {
     }//GEN-LAST:event_productBtnMouseEntered
 
     private void productBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productBtnMouseClicked
-        ContentPn.add(new MedicalProducts(), "Medinces");
-        switchToPanel("Medinces");
+
     }//GEN-LAST:event_productBtnMouseClicked
 
     private void usericonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usericonMouseClicked

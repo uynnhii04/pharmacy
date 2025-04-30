@@ -65,7 +65,7 @@ public class UserDAO implements DAOinterface<UserDTO> {
         ArrayList<UserDTO> userList = new ArrayList<>();
         myConnection.openConnection();
         String query = "SELECT * FROM users WHERE status = 1";
-        ResultSet rs = myConnection.runQuerry(query);
+        ResultSet rs = myConnection.runQuery(query);
         try {
             while (rs.next()) {
                 UserDTO user = extractUserFromResultSet(rs);
@@ -85,7 +85,7 @@ public class UserDAO implements DAOinterface<UserDTO> {
         myConnection.openConnection();
         String query = "SELECT * FROM users WHERE user_id = ? AND status = 1";
         try {
-            ResultSet rs = myConnection.runQuerry("SELECT * FROM users WHERE userID = '" + userID + "' AND status = 1");
+            ResultSet rs = myConnection.runQuery("SELECT * FROM users WHERE userID = '" + userID + "' AND status = 1");
             if (rs.next()) {
                 user = extractUserFromResultSet(rs);
             }
@@ -106,7 +106,7 @@ public class UserDAO implements DAOinterface<UserDTO> {
                 + "password LIKE '%" + keyword + "%' OR "
                 + "role_id LIKE '%" + keyword + "%') "
                 + "AND status = 1";
-        ResultSet rs = myConnection.runQuerry(query);
+        ResultSet rs = myConnection.runQuery(query);
         try {
             while (rs.next()) {
                 UserDTO user = extractUserFromResultSet(rs);
@@ -125,7 +125,7 @@ public class UserDAO implements DAOinterface<UserDTO> {
         myConnection.openConnection();
         // Query to select all user IDs, including deleted ones
         String query = "SELECT user_id FROM users";
-        ResultSet rs = myConnection.runQuerry(query);
+        ResultSet rs = myConnection.runQuery(query);
         try {
             while (rs.next()) {
                 String id = rs.getString("user_id");
@@ -166,7 +166,7 @@ public class UserDAO implements DAOinterface<UserDTO> {
             String query = "SELECT * FROM users WHERE username = '" + safeUsername + 
                           "' AND password = '" + safePassword + "' AND status = 1";
 
-            ResultSet rs = myConnection.runQuerry(query);
+            ResultSet rs = myConnection.runQuery(query);
 
             if (rs != null && rs.next()) {
                 // User found with matching credentials

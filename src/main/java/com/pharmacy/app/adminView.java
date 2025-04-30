@@ -5,16 +5,11 @@
 package com.pharmacy.app;
 
 import com.pharmacy.app.GUI.Authorization.AuthorizationManagement;
-import com.pharmacy.app.GUI.Customer.CustomerList;
 import com.pharmacy.app.GUI.Employee.EmployeeManagement;
-import com.pharmacy.app.GUI.Product.MedicalProducts;
 import java.awt.*;
 import javax.swing.*;
-import com.pharmacy.app.GUI.Promo.*;
-import com.pharmacy.app.GUI.Supplier.SupplierList;
 import com.pharmacy.app.GUI.User.UserInfo;
 import com.pharmacy.app.GUI.User.UserManagement;
-import com.pharmacy.app.GUI.WorkSchedule.WorkScheduleManagement;
 
 /**
  *
@@ -663,8 +658,7 @@ public class adminView extends javax.swing.JFrame {
     }//GEN-LAST:event_cusBtnMouseExited
 
     private void cusBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cusBtnMouseClicked
-        ContentPn.add(new CustomerList(), "Customer");
-        switchToPanel("Customer");
+
     }//GEN-LAST:event_cusBtnMouseClicked
 // Khuyến mãi
     private void promoBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_promoBtnMouseEntered
@@ -678,8 +672,7 @@ public class adminView extends javax.swing.JFrame {
     }//GEN-LAST:event_promoBtnMouseExited
 
     private void promoBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_promoBtnMouseClicked
-        ContentPn.add(new HomePromo(), "Promo");
-        switchToPanel("Promo");
+
     }//GEN-LAST:event_promoBtnMouseClicked
 // Nhân viên
     private void empBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empBtnMouseEntered
@@ -708,8 +701,7 @@ public class adminView extends javax.swing.JFrame {
     }//GEN-LAST:event_supBtnMouseExited
 
     private void supBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supBtnMouseClicked
-        ContentPn.add(new SupplierList(), "Supplier");
-        switchToPanel("Supplier");
+
     }//GEN-LAST:event_supBtnMouseClicked
 // User
     private void userBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userBtnMouseEntered
@@ -738,8 +730,7 @@ public class adminView extends javax.swing.JFrame {
     }//GEN-LAST:event_productBtnMouseExited
 
     private void productBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productBtnMouseClicked
-        ContentPn.add(new MedicalProducts(), "Medinces");
-        switchToPanel("Medinces");
+
     }//GEN-LAST:event_productBtnMouseClicked
 // Phân quyền
     private void authzBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_authzBtnMouseExited

@@ -5,17 +5,10 @@
 package com.pharmacy.app;
 
 import com.pharmacy.app.GUI.Authorization.AuthorizationManagement;
-import com.pharmacy.app.GUI.Customer.CustomerList;
 import com.pharmacy.app.GUI.Employee.EmployeeManagement;
 import com.pharmacy.app.GUI.Employee.EmployeeProfile;
-import com.pharmacy.app.GUI.Importing.Invoices;
-import com.pharmacy.app.GUI.Importing.PurchaseOrder;
-import com.pharmacy.app.GUI.Product.MedicalProducts;
 import java.awt.*;
 import javax.swing.*;
-import com.pharmacy.app.GUI.Promo.*;
-import com.pharmacy.app.GUI.Sales.HomeSales;
-import com.pharmacy.app.GUI.Supplier.SupplierList;
 import com.pharmacy.app.GUI.User.UserInfo;
 import com.pharmacy.app.GUI.User.UserManagement;
 import com.pharmacy.app.GUI.WorkSchedule.WorkScheduleManagement;
@@ -33,14 +26,11 @@ public class managerView extends javax.swing.JFrame {
     private Color colorEntered = new Color(120,168,191);
     private Color colorExited = new Color(0,102,153);
     private CardLayout cardlayout = new CardLayout();
-    private HomeSales homesales = new HomeSales();
     
     public managerView() {
         initComponents();
         this.setLocationRelativeTo(null);
         ContentPn.setLayout(cardlayout);
-        ContentPn.add(homesales, "Sales");
-        switchToPanel("Sales");
     }
 
     /**
@@ -781,8 +771,7 @@ public class managerView extends javax.swing.JFrame {
     }//GEN-LAST:event_cusBtnMouseExited
 
     private void cusBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cusBtnMouseClicked
-        ContentPn.add(new CustomerList(), "Customer");
-        switchToPanel("Customer");
+
     }//GEN-LAST:event_cusBtnMouseClicked
 // Khuyến mãi
     private void promoBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_promoBtnMouseEntered
@@ -796,8 +785,7 @@ public class managerView extends javax.swing.JFrame {
     }//GEN-LAST:event_promoBtnMouseExited
 
     private void promoBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_promoBtnMouseClicked
-        ContentPn.add(new HomePromo(), "Promo");
-        switchToPanel("Promo");
+
     }//GEN-LAST:event_promoBtnMouseClicked
 // Nhân viên
     private void empBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_empBtnMouseEntered
@@ -826,8 +814,7 @@ public class managerView extends javax.swing.JFrame {
     }//GEN-LAST:event_supBtnMouseExited
 
     private void supBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_supBtnMouseClicked
-        ContentPn.add(new SupplierList(), "Supplier");
-        switchToPanel("Supplier");
+
     }//GEN-LAST:event_supBtnMouseClicked
 // Nhập hàng
     private void importBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_importBtnMouseEntered
@@ -841,8 +828,7 @@ public class managerView extends javax.swing.JFrame {
     }//GEN-LAST:event_importBtnMouseExited
 
     private void importBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_importBtnMouseClicked
-        ContentPn.add(new Invoices(), "Invoices");
-        switchToPanel("Invoices");
+
     }//GEN-LAST:event_importBtnMouseClicked
 // Đặt hàng
     private void purchaseBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchaseBtnMouseEntered
@@ -856,8 +842,7 @@ public class managerView extends javax.swing.JFrame {
     }//GEN-LAST:event_purchaseBtnMouseExited
 
     private void purchaseBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchaseBtnMouseClicked
-        ContentPn.add(new PurchaseOrder(), "PO");
-        switchToPanel("PO");
+
     }//GEN-LAST:event_purchaseBtnMouseClicked
 // Sản phẩm
     private void productBtnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productBtnMouseEntered
@@ -871,13 +856,11 @@ public class managerView extends javax.swing.JFrame {
     }//GEN-LAST:event_productBtnMouseExited
 
     private void productBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productBtnMouseClicked
-        ContentPn.add(new MedicalProducts(), "Medinces");
-        switchToPanel("Medinces");
+
     }//GEN-LAST:event_productBtnMouseClicked
 
     private void saleBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saleBtnMouseClicked
-        ContentPn.add(homesales, "Sales");
-        switchToPanel("Sales");
+
     }//GEN-LAST:event_saleBtnMouseClicked
 
     private void scheduleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleBtnActionPerformed

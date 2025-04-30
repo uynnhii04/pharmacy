@@ -4,7 +4,6 @@
  */
 package com.pharmacy.app.GUI.Payroll;
 
-import com.pharmacy.app.GUI.Supplier.AddSupplier;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
