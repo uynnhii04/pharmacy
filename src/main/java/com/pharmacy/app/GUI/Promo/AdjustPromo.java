@@ -58,6 +58,7 @@ public class AdjustPromo extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Thêm khuyến mãi");
         setMinimumSize(new java.awt.Dimension(400, 500));
+        setPreferredSize(new java.awt.Dimension(500, 550));
         getContentPane().setLayout(new java.awt.BorderLayout(20, 0));
 
         lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N

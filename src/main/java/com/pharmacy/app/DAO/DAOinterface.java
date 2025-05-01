@@ -9,6 +9,7 @@ import java.util.ArrayList;
 /**
  *
  * @author LENOVO
+ * @param <T>
  */
 public interface DAOinterface<T> {
     public boolean insert (T t);

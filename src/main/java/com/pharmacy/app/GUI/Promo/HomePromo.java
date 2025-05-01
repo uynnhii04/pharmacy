@@ -3,27 +3,51 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.pharmacy.app.GUI.Promo;
-import com.pharmacy.app.DTO.Promotion;
-import java.text.SimpleDateFormat;
+import com.pharmacy.app.BUS.PromotionBUS;
+import com.pharmacy.app.DTO.PromotionDTO;
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
- *
+ 
  * @author Giai Cuu Li San
  */
-public class HomePromo extends javax.swing.JPanel {
-    private ArrayList<Promotion> promoList;
-    /**
-     * Creates new form HomePromo
-     */
+public class HomePromo extends javax.swing.JPanel{
+    private PromotionBUS promoBUS = new PromotionBUS(); // Lớp xử lý nghiệp vụ cho Promo
+    private ArrayList<PromotionDTO> promotionList = promoBUS.getAllPromos();
+    private ArrayList<PromotionDTO> promotionListByType = new ArrayList<>();
+
     public HomePromo() {
         initComponents();
-        promoList = new ArrayList<>();
-        loadPromoData();
+        setupTable();
+        loadData();
+        
+        txtSearch.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                searchPromo();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                searchPromo();
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                searchPromo();
+
+            }
+        });
     }
 
     /**
@@ -39,7 +63,7 @@ public class HomePromo extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         plSearch = new javax.swing.JPanel();
         cbSort = new javax.swing.JComboBox<>();
-        txtSearch1 = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         plButton = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnRefesh = new javax.swing.JButton();
@@ -69,15 +93,20 @@ public class HomePromo extends javax.swing.JPanel {
         plSearch.setPreferredSize(new java.awt.Dimension(450, 70));
         plSearch.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 20));
 
-        cbSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbSort.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Đổi điểm", "Giảm phần trăm" }));
         cbSort.setMinimumSize(new java.awt.Dimension(100, 30));
         cbSort.setPreferredSize(new java.awt.Dimension(100, 30));
+        cbSort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSortActionPerformed(evt);
+            }
+        });
         plSearch.add(cbSort);
 
-        txtSearch1.setMaximumSize(new java.awt.Dimension(300, 30));
-        txtSearch1.setMinimumSize(new java.awt.Dimension(300, 30));
-        txtSearch1.setPreferredSize(new java.awt.Dimension(300, 30));
-        plSearch.add(txtSearch1);
+        txtSearch.setMaximumSize(new java.awt.Dimension(300, 30));
+        txtSearch.setMinimumSize(new java.awt.Dimension(300, 30));
+        txtSearch.setPreferredSize(new java.awt.Dimension(300, 30));
+        plSearch.add(txtSearch);
 
         plButton.setBackground(new java.awt.Color(255, 255, 255));
         plButton.setMaximumSize(new java.awt.Dimension(300, 70));
@@ -91,6 +120,11 @@ public class HomePromo extends javax.swing.JPanel {
         btnAdd.setMaximumSize(new java.awt.Dimension(75, 30));
         btnAdd.setMinimumSize(new java.awt.Dimension(75, 30));
         btnAdd.setPreferredSize(new java.awt.Dimension(75, 30));
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
         plButton.add(btnAdd);
 
         btnRefesh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -99,6 +133,11 @@ public class HomePromo extends javax.swing.JPanel {
         btnRefesh.setMaximumSize(new java.awt.Dimension(90, 30));
         btnRefesh.setMinimumSize(new java.awt.Dimension(90, 30));
         btnRefesh.setPreferredSize(new java.awt.Dimension(90, 30));
+        btnRefesh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefeshActionPerformed(evt);
+            }
+        });
         plButton.add(btnRefesh);
 
         lblImg.setBackground(new java.awt.Color(255, 255, 255));
@@ -164,6 +203,13 @@ public class HomePromo extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
+        TableColumnModel columnModel = tblPromo.getColumnModel();
+
+        columnModel.getColumn(0).setPreferredWidth(20);
+        columnModel.getColumn(0).setPreferredWidth(50);
+        columnModel.getColumn(0).setPreferredWidth(50);
+        columnModel.getColumn(0).setPreferredWidth(50);
+        columnModel.getColumn(0).setPreferredWidth(50);
         tblPromo.setEnabled(false);
         tblPromo.setMaximumSize(new java.awt.Dimension(700, 600));
         tblPromo.setMinimumSize(new java.awt.Dimension(700, 450));
@@ -183,13 +229,85 @@ public class HomePromo extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblPromoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPromoMouseClicked
+        int row = tblPromo.rowAtPoint(evt.getPoint());
+        if (row >= 0) {
+            tblPromo.setRowSelectionInterval(row, row); // Tô màu dòng được click
+        }
         if (evt.getClickCount() == 2){
-            int row = tblPromo.rowAtPoint(evt.getPoint());
             showPromoDetails(row);
         }
     }//GEN-LAST:event_tblPromoMouseClicked
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        AddPromo dialog = new AddPromo(this);
+        dialog.setVisible(true); // Hiển thị cửa sổ chi tiết
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void cbSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSortActionPerformed
+        String selectedType = cbSort.getSelectedItem().toString();
+        if (selectedType.equals("Tất cả")){
+            loadData();
+        } else {
+            loadDataByType(selectedType);
+        }
+    }//GEN-LAST:event_cbSortActionPerformed
+
+    private void btnRefeshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefeshActionPerformed
+        cbSort.setSelectedItem("Tất cả");
+        txtSearch.setText("");
+        loadData();
+    }//GEN-LAST:event_btnRefeshActionPerformed
+
     
+    private void setupTable() {
+        tblPromo.setSelectionBackground(new Color(0, 220, 230)); // Màu nền khi chọn (xanh nhạt)
+        tblPromo.setSelectionForeground(Color.BLACK); // Màu chữ khi chọn
+        tblPromo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Chỉ cho phép chọn 1 dòng
+    }
+    
+    public void loadData() {
+        showDataToTable(promotionList);
+    }
+    
+    public void loadDataByType(String type) {
+        promotionListByType = promoBUS.getPromosByType(type); // Lấy danh sách mã giảm giá từ PromoBUS
+        showDataToTable(promotionListByType);
+    }
+
+    public void showDataToTable(ArrayList<PromotionDTO> list) {
+        DefaultTableModel model = (DefaultTableModel) tblPromo.getModel();
+        model.setRowCount(0); // Xóa dữ liệu cũ
+
+        for (PromotionDTO promo : list) {
+            Object[] row = new Object[]{
+                promo.getPromotionId(),
+                promo.getProgramName(),
+                promo.getPromotionType(),
+                promo.getStartDate(),
+                promo.getEndDate()
+            };
+            model.addRow(row);
+        }
+    }
+
+
+    private void showPromoDetails(int row) {
+        if (row >= 0 && row < promotionList.size()) {  // Kiểm tra chỉ số dòng hợp lệ
+            PromotionDTO promo = promotionList.get(row);  // Lấy đối tượng PromotionDTO từ danh sách
+
+            // Mở cửa sổ chi tiết với đối tượng promo đã chọn
+            PromoDetail dialog = new PromoDetail(this, promo);
+            dialog.setVisible(true); // Hiển thị cửa sổ chi tiết
+        } else {
+            JOptionPane.showMessageDialog(this, "Dữ liệu không hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void searchPromo() {
+        String keyword = txtSearch.getText();
+        ArrayList<PromotionDTO> result = promoBUS.searchByName(keyword);
+        showDataToTable(result);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -204,68 +322,6 @@ public class HomePromo extends javax.swing.JPanel {
     private javax.swing.JPanel plHeader;
     private javax.swing.JPanel plSearch;
     private javax.swing.JTable tblPromo;
-    private javax.swing.JTextField txtSearch1;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
-
-    private void loadPromoData() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
-        try {
-            // Thêm dữ liệu khuyến mãi vào ArrayList
-            promoList.add(new Promotion("KM01", "Sale Ngày Nhà Thuốc VN", "Điểm tích lũy", null, 
-                                    null, 1000, 50.0, dateFormat.parse("2025-04-01"), dateFormat.parse("2025-04-10")));
-            promoList.add(new Promotion("KM02", "Giảm Giá Ngày Quốc Tế", "Mặt hàng", "Thuốc XYZ", 
-                                    15.0, null, null, dateFormat.parse("2025-05-01"), dateFormat.parse("2025-05-05")));
-            promoList.add(new Promotion("KM03", "Khuyến Mãi Mùa Hè", "Điểm tích lũy", null, 
-                                    null, 500, 25.0, dateFormat.parse("2025-06-01"), dateFormat.parse("2025-06-30")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // Cập nhật bảng với dữ liệu khuyến mãi
-        updateTable();
-    }
-
-    private void updateTable() {
-                DefaultTableModel model = (DefaultTableModel) tblPromo.getModel();
-
-        // Xóa các dòng cũ
-        model.setRowCount(0);
-
-        // Duyệt qua danh sách khuyến mãi và thêm dữ liệu vào bảng (chỉ 5 trường cần hiển thị)
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
-        for (Promotion promo : promoList) {
-            model.addRow(new Object[]{
-                promo.getPromotionId(),  // Mã khuyến mãi
-                promo.getProgramName(),   // Tên chương trình khuyến mãi
-                promo.getPromotionType(),       // Loại khuyến mãi
-                dateFormat.format(promo.getStartDate()), // Ngày bắt đầu
-                dateFormat.format(promo.getEndDate())    // Ngày kết thúc
-            });
-        }
-    }
-
-    private void showPromoDetails(int row) {
-        Promotion promo = promoList.get(row);
-        
-        PromoDetail dialog = new PromoDetail((JFrame) SwingUtilities.getWindowAncestor(this), promo);
-        dialog.setVisible(true);
-        
-        // Hiển thị thông tin chi tiết trong một dialog (JOptionPane)
-//        String message = "Mã khuyến mãi: " + promo.getPromotionId() + "\n" +
-//                         "Tên chương trình: " + promo.getProgramName() + "\n" +
-//                         "Loại khuyến mãi: " + promo.getPromotionType() + "\n" +
-//                         "Sản phẩm: " + promo.getProduct() + "\n" +
-//                         "Phần trăm giảm giá: " + promo.getDiscountPercent() + "%\n" +
-//                         "Điểm tích lũy tối thiểu: " + promo.getMinAccumulatedPoints() + "\n" +
-//                         "Số tiền giảm: " + promo.getDiscountAmount() + "\n" +
-//                         "Ngày bắt đầu: " + new SimpleDateFormat("yyyy-MM-dd").format(promo.getStartDate()) + "\n" +
-//                         "Ngày kết thúc: " + new SimpleDateFormat("yyyy-MM-dd").format(promo.getEndDate());
-//
-//        // Hiển thị thông tin trong một dialog
-//        JOptionPane.showMessageDialog(this, message, "Chi tiết khuyến mãi", JOptionPane.INFORMATION_MESSAGE);
-    }
-    
-    
 }
