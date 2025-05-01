@@ -234,6 +234,11 @@ public class EmployeeManagement extends javax.swing.JPanel {
         btnPdfEmployee.setMaximumSize(new java.awt.Dimension(72, 22));
         btnPdfEmployee.setMinimumSize(new java.awt.Dimension(72, 22));
         btnPdfEmployee.setPreferredSize(new java.awt.Dimension(80, 35));
+        btnPdfEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPdfEmployeeActionPerformed(evt);
+            }
+        });
         pnlEmployee1.add(btnPdfEmployee);
 
         pnlEmployees.add(pnlEmployee1, java.awt.BorderLayout.NORTH);
@@ -435,17 +440,32 @@ public class EmployeeManagement extends javax.swing.JPanel {
         int selectedRow = tblEmployees.getSelectedRow();
         System.out.println(selectedRow);
         if (selectedRow != -1){
-            // Lấy dữ liệu từ các cột trong dòng được chọn
+            // Get id of selected row
             String id = tblEmployees.getValueAt(selectedRow, 0).toString();
-            // Tạo đối tượng SupplierDTO từ dữ liệu đã lấy
-            System.out.println("ID được chọn: " + id);
+            // Create DTO object
             EmployeeDTO selectedEmployee = employeeBUS.getEmployeeByID(id);
-            System.out.println("Employee: " + selectedEmployee);
             UpdateEmployee detailDialog = new UpdateEmployee((JFrame) SwingUtilities.getWindowAncestor(this), true, selectedEmployee);
             detailDialog.setLocationRelativeTo(null);
             detailDialog.setVisible(true);
         }
     }//GEN-LAST:event_tblEmployeesMouseClicked
+
+    private void btnPdfEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfEmployeeActionPerformed
+        try {
+            // Get table model
+            DefaultTableModel model = (DefaultTableModel) tblEmployees.getModel();
+
+            // Use the PDFExporter utility class to export employee data
+            com.pharmacy.app.Utils.PDFExporter.exportEmployeesToPDF(this, model);
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Lỗi khi xuất PDF: " + e.getMessage(),
+                "Lỗi",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnPdfEmployeeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

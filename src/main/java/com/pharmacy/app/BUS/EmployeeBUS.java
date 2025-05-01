@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author phong
  */
 public class EmployeeBUS {
-    private EmployeeDAO employeeDAO;
+    public EmployeeDAO employeeDAO;
     private ArrayList<EmployeeDTO> employeeList;
     
     public EmployeeBUS() {

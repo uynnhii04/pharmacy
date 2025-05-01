@@ -85,7 +85,7 @@ public class UserDAO implements DAOinterface<UserDTO> {
         myConnection.openConnection();
         String query = "SELECT * FROM users WHERE user_id = ? AND status = 1";
         try {
-            ResultSet rs = myConnection.runQuery("SELECT * FROM users WHERE userID = '" + userID + "' AND status = 1");
+            ResultSet rs = myConnection.prepareQuery(query, userID);
             if (rs.next()) {
                 user = extractUserFromResultSet(rs);
             }

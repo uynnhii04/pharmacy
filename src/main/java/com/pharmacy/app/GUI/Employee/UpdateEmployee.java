@@ -38,12 +38,67 @@ public class UpdateEmployee extends javax.swing.JDialog {
         txtName.setText(employee.getName());
         txtPhone.setText(employee.getPhone());
         txtDOB.setText(employee.getDob().format(DATE_FORMAT));
+        cbGender.setSelectedIndex(employee.getGender() ? 0 : 1);
         txtEmail.setText(employee.getEmail());
         txtAddress.setText(String.valueOf(employee.getAddress()));
     }
     private UpdateEmployee(JFrame jFrame, boolean b) {
         super(jFrame, b);
         initComponents();
+    }
+    
+    /**
+     * Validates the employee form inputs
+     * @return true if all inputs are valid, false otherwise
+     */
+    private boolean validateForm() {
+        String name = txtName.getText().trim();
+        String dob = txtDOB.getText().trim();
+        String email = txtEmail.getText().trim();
+        String phone = txtPhone.getText().trim();
+        String address = txtAddress.getText().trim();
+
+        // Validate required fields
+        String nameError = EmployeeValidation.validateRequired(name, "Họ tên");
+        if (!nameError.isEmpty()) {
+            JOptionPane.showMessageDialog(this, nameError, "Lỗi", JOptionPane.ERROR_MESSAGE);
+            txtName.requestFocus();
+            return false;
+        }
+
+        // Validate date of birth
+        String dobError = EmployeeValidation.validateDate(dob);
+        if (!dobError.isEmpty()) {
+            JOptionPane.showMessageDialog(this, dobError, "Lỗi", JOptionPane.ERROR_MESSAGE);
+            txtDOB.requestFocus();
+            return false;
+        }
+
+        // Validate phone
+        String phoneError = EmployeeValidation.validatePhone(phone);
+        if (!phoneError.isEmpty()) {
+            JOptionPane.showMessageDialog(this, phoneError, "Lỗi", JOptionPane.ERROR_MESSAGE);
+            txtPhone.requestFocus();
+            return false;
+        }
+
+        // Validate email if provided
+        String emailError = EmployeeValidation.validateEmail(email);
+        if (!emailError.isEmpty()) {
+            JOptionPane.showMessageDialog(this, emailError, "Lỗi", JOptionPane.ERROR_MESSAGE);
+            txtEmail.requestFocus();
+            return false;
+        }
+
+        // Validate address
+        String addressError = EmployeeValidation.validateRequired(address, "Địa chỉ");
+        if (!addressError.isEmpty()) {
+            JOptionPane.showMessageDialog(this, addressError, "Lỗi", JOptionPane.ERROR_MESSAGE);
+            txtAddress.requestFocus();
+            return false;
+        }
+
+        return true;
     }
     
     /**
@@ -268,6 +323,7 @@ public class UpdateEmployee extends javax.swing.JDialog {
         pnlUpdateEmployeeFields.add(lblEmpoyeeID, gridBagConstraints);
 
         txtEmployeeID.setEditable(false);
+        txtEmployeeID.setEnabled(false);
         txtEmployeeID.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -309,7 +365,63 @@ public class UpdateEmployee extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        // Validate form
+        if (!validateForm()) {
+            return;
+        }
+
+        // Get form data
+        String name = txtName.getText().trim();
+        String dob = txtDOB.getText().trim();
+        String email = txtEmail.getText().trim();
+        String phone = txtPhone.getText().trim();
+        String address = txtAddress.getText().trim();
+        boolean gender = cbGender.getSelectedIndex() == 0; // true for Nam (Male), false for Nữ (Female)
+
+        // Parse date of birth
+        LocalDate dateOfBirth = EmployeeValidation.parseDate(dob);
+
+        // Check for duplicate email/phone with other employees
+        // Skip validation for the current employee's email/phone
+        String currentEmail = employeeDTO.getEmail();
+        String currentPhone = employeeDTO.getPhone();
+
+        // Only check for duplicate email if it changed
+        if (!email.equals(currentEmail) && !email.isEmpty()) {
+            if (employeeBUS.employeeDAO.isEmailExists(email)) {
+                JOptionPane.showMessageDialog(this, "Email đã được sử dụng bởi nhân viên khác!", 
+                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtEmail.requestFocus();
+                return;
+            }
+        }
+
+        // Only check for duplicate phone if it changed
+        if (!phone.equals(currentPhone)) {
+            if (employeeBUS.employeeDAO.isPhoneExists(phone)) {
+                JOptionPane.showMessageDialog(this, "Số điện thoại đã được sử dụng bởi nhân viên khác!", 
+                        "Lỗi", JOptionPane.ERROR_MESSAGE);
+                txtPhone.requestFocus();
+                return;
+            }
+        }
+
+        // Update employee object with new data
+        employeeDTO.setName(name);
+        employeeDTO.setDob(dateOfBirth);
+        employeeDTO.setGender(gender);
+        employeeDTO.setEmail(email);
+        employeeDTO.setPhone(phone);
+        employeeDTO.setAddress(address);
+
+        // Update employee in database
+        boolean success = employeeBUS.updateEmployee(employeeDTO);
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            dispose(); // Close dialog after successful update
+        } else {
+            JOptionPane.showMessageDialog(this, "Cập nhật thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -341,7 +453,23 @@ public class UpdateEmployee extends javax.swing.JDialog {
     }//GEN-LAST:event_txtAddressActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        // Confirm before deletion
+        int confirm = JOptionPane.showConfirmDialog(this, 
+                "Bạn có chắc chắn muốn xóa nhân viên này?", 
+                "Xác nhận xóa", 
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            String employeeID = txtEmployeeID.getText();
+            boolean success = employeeBUS.deleteEmployee(employeeID);
+
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Xóa nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                dispose(); // Close dialog after successful deletion
+            } else {
+                JOptionPane.showMessageDialog(this, "Xóa nhân viên thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**

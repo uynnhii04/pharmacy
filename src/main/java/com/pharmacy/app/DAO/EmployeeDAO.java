@@ -93,7 +93,6 @@ public class EmployeeDAO implements DAOinterface<EmployeeDTO> {
         myConnection.openConnection();
         String query = "SELECT * FROM employees WHERE employee_id = ? AND is_deleted = 0";
         try {
-//            ResultSet rs = myConnection.runQuery("SELECT * FROM employees WHERE employeeID = '" + employeeID + "' AND isDeleted = 0");
             ResultSet rs = myConnection.prepareQuery(query, employeeID);
             if (rs.next()) {
                 employee = extractEmployeeFromResultSet(rs);
