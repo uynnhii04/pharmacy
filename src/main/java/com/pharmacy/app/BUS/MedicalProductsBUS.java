@@ -31,5 +31,14 @@ public class MedicalProductsBUS {
             e.printStackTrace();
             return null;
         }
+    
 }
+    public MedicalProductsDTO getProductByID(String productID) {
+        for (MedicalProductsDTO product : getAllProducts()) {
+            if (product.getMedicineID().equals(productID)) {
+                return product;
+            }
+        }
+        return product.getProductbyID(productID);
+    }
 }

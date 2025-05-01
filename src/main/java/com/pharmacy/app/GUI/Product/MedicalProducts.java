@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  * @author LENOVO
  */
 public class MedicalProducts extends javax.swing.JPanel {
-
+    MedicalProductsBUS medBUS = new MedicalProductsBUS();
     /**
      * Creates new form MedicinesBatch
      */
@@ -482,7 +482,6 @@ public class MedicalProducts extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1ActionPerformed
     
     private void loadMedList(){
-        MedicalProductsBUS medBUS = new MedicalProductsBUS();
         ArrayList<MedicalProductsDTO> medList = medBUS.getAllProducts();
         DefaultTableModel model = (DefaultTableModel) medListTbl.getModel();
         model.setRowCount(0);
@@ -545,15 +544,16 @@ public class MedicalProducts extends javax.swing.JPanel {
     }
     
     private void medListTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medListTblMouseClicked
-         if (evt.getButton() == MouseEvent.BUTTON1) {
+         
+        if (evt.getButton() == MouseEvent.BUTTON1) {
             int row = medListTbl.getSelectedRow();
-
             if (row >= 0) {
-                Object value = medListTbl.getValueAt(row, 0);
-
+                String ID = medListTbl.getValueAt(row, 0).toString();
+                
+                MedicalProductsDTO selectedProduct = medBUS.getProductByID(ID);
                 // Mở dialog
                 Frame frame = JOptionPane.getFrameForComponent(medListTbl);
-                ProductDetails dialog = new ProductDetails(frame, true);
+                ProductDetails dialog = new ProductDetails(frame, true, selectedProduct);
                 dialog.setLocationRelativeTo(frame);
                 dialog.setVisible(true);
             }

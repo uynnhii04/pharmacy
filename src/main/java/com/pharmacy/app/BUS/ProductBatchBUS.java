@@ -16,11 +16,12 @@ import java.util.ArrayList;
  * @author LENOVO
  */
 public class ProductBatchBUS {
-    private ProductBatchDAO batch = new ProductBatchDAO();
+    private ProductBatchDAO batchDAO = new ProductBatchDAO();
+    private ProductBatchDTO batchDTO = new ProductBatchDTO();
 
     public ArrayList<ProductBatchDTO> getAllBatches(){
         try {
-            return batch.selectAll();
+            return batchDAO.selectAll();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -44,5 +45,12 @@ public class ProductBatchBUS {
             }
             return daysLeft.length() > 0 ? daysLeft.toString() : "0 ngày";
         }else return "Hết hạn sử dụng";
+    }
+    
+    public boolean saleBatchQuantity(int quan){
+        if(quan <= batchDTO.getQuantityInStock()){
+            batchDTO.setQuantityInStock(batchDTO.getQuantityInStock() - quan);
+            return true;
+        }else return false;
     }
 }
