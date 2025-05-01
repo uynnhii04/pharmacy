@@ -164,17 +164,17 @@ public class HomeSales extends javax.swing.JPanel {
         tblProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"123", "Parnadol", "vỉ",  new Float(30000.0),  new Integer(200), "22/12/2025", null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {"123", "Parnadol", "vỉ", null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã thuốc", "Tên thuốc", "Đơn vị", "Đơn giá", "Tồn kho", "Hạn sử dụng", "Khuyến mãi (%)"
+                "Mã thuốc", "Tên thuốc", "Đơn vị", "Đơn giá", "Tồn kho", "Hạn sử dụng", "Khuyến mãi (%)", "Tiền khuyến mãi", "Giá sau khuyến mãi"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Object.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
