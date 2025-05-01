@@ -36,7 +36,7 @@ public class MyConnection {
         }
     }
 
-    public ResultSet runQuerry(String st) {
+    public ResultSet runQuery(String st) {
         try {
             return stm.executeQuery(st);
         } catch (Exception e) {
@@ -72,4 +72,7 @@ public class MyConnection {
         }
     }
     
+    public Connection getConnection(){
+        return con;
+    }
 }

@@ -31,7 +31,7 @@ public class testconnect {
 
             // Thực thi truy vấn
             Statement stmt1 = con.createStatement();
-            ResultSet rs = stmt1.executeQuery("SELECT * FROM category");
+            ResultSet rs = stmt1.executeQuery("SELECT * FROM categories");
             
             while (rs.next()) {
                 System.out.println( "ID: " + rs.getString(1) + ", Tên thuốc: " + rs.getString(2) + ", Chú thích: " +rs.getString(3) +" Trạng thái: "+rs.getString(4));
