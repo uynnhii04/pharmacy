@@ -18,7 +18,6 @@ public class CustomerBUS {
     public CustomerBUS(){
         customerDAO = new CustomerDAO();
         customerList = new ArrayList<>();
-        this.customerList = customerDAO.selectAll();
     }
     public ArrayList<CustomerDTO> getCustomerList() {
         return customerList;

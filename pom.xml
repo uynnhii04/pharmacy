@@ -30,14 +30,8 @@
         </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
-            <artifactId>kernel</artifactId>
-            <version>7.1.15</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>layout</artifactId>
-            <version>7.1.15</version>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.13.4</version>
         </dependency>
     </dependencies>
     <name>PharmacyManagement_Java</name>

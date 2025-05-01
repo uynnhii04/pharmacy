@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
+
 /**
  *
  * @author BOI QUAN
@@ -187,9 +188,14 @@ public final class SupplierList extends javax.swing.JPanel {
         });
         plSearch.add(btnRefesh);
 
+        btnExportPDF.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         btnExportPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pdf.png"))); // NOI18N
+        btnExportPDF.setText("Xuất PDF");
+        btnExportPDF.setAlignmentX(0.5F);
         btnExportPDF.setBorder(null);
+        btnExportPDF.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExportPDF.setPreferredSize(new java.awt.Dimension(46, 40));
+        btnExportPDF.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnExportPDF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExportPDFActionPerformed(evt);
@@ -296,8 +302,6 @@ public final class SupplierList extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void tbSupplierListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSupplierListMouseClicked
-        // TODO add your handling code here:
-//        supplierDAO = new SupplierDAO();
         int selectedRow = tbSupplierList.getSelectedRow();
         if (selectedRow != -1){
             // Lấy dữ liệu từ các cột trong dòng được chọn
@@ -325,8 +329,15 @@ public final class SupplierList extends javax.swing.JPanel {
     private void btnExportPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportPDFActionPerformed
         // TODO add your handling code here:
         List<SupplierDTO> supplierList = supplierBUS.getAllSuppliers();
-        String[] headers = {"ID", "Tên công ty", "Số điện thoại", "Email", "Địa chỉ", "Còn hoạt động"};
-        ExportPDF.exportListToPDF(supplierList, "SupplierList.pdf", headers);
+//        String[] headers = {"ID", "Tên công ty", "Số điện thoại", "Email", "Địa chỉ", "Còn hoạt động"};
+//        ExportPDF.exportListToPDF(supplierList, "SupplierList.pdf", headers);
+//        List<SupplierDTO> list = SupplierDAO.selectAll();
+        String[] headers = {"Mã nhà cung cấp", "Tên nhà cung cấp", "SĐT", "Email", "Địa chỉ"};
+        String[] fields = {"id", "name", "phone", "email", "address"};
+
+        ExportPDF pdf = new ExportPDF();
+        pdf.exportListToPDFWithDialog("DanhSachNhaCungCap", supplierList, headers, fields);
+
     }//GEN-LAST:event_btnExportPDFActionPerformed
 
 

@@ -20,12 +20,12 @@ public class CustomerDetail extends javax.swing.JDialog {
     /**
      * Creates new form ChiTietCustomer
      */
-    public CustomerDetail(java.awt.Frame parent, boolean modal, CustomerDTO customerDTO) {
+    public CustomerDetail(java.awt.Frame parent, boolean modal, CustomerDTO customer) {
         super(parent, modal);
         initComponents();
         centerTableCells();
-        this.customerDTO = customerDTO;
-        setData(customerDTO);
+        this.customerDTO = customer;
+        setData(customer);
         
     }
     private void setData(CustomerDTO customer) {

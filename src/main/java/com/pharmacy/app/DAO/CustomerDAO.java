@@ -16,12 +16,6 @@ import java.util.Objects;
  * @author BOI QUAN
  */
 public class CustomerDAO implements DAOinterface<CustomerDTO>{
-    private String searchField = "all"; // mặc định tìm tất cả
-
-    public void setSearchField(String field) {
-        this.searchField = field;
-    }
-
     MyConnection myconnect = new MyConnection();
     
     public String generateNextId() {
@@ -145,16 +139,16 @@ public class CustomerDAO implements DAOinterface<CustomerDTO>{
         }
         return customer;
     }
+    
 
     @Override
     public ArrayList<CustomerDTO> search(String t) {
         ArrayList<CustomerDTO> customers = new ArrayList<>();
         if (myconnect.openConnection()){
-            float point = Float.parseFloat(t);
             String sql = "SELECT * FROM customers WHERE( "
                     + "LOWER(customer_id) LIKE '%" + t.toLowerCase() + "%' OR "
                     + "LOWER(customer_name) LIKE '%" + t.toLowerCase() + "%' OR "
-                    + "phone LIKE '%" + t.toLowerCase() + "%')"
+                    + "phone_number LIKE '%" + t.toLowerCase() + "%')"
                     + "AND is_deleted = 0";
             ResultSet rs = myconnect.runQuery(sql);
             try {

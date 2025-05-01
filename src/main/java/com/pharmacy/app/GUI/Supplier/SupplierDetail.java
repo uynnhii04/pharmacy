@@ -26,10 +26,10 @@ public class SupplierDetail extends javax.swing.JDialog {
      * @param modal
      * @param supplierDTO
      */
-    public SupplierDetail(java.awt.Frame parent, boolean modal, SupplierDTO supplierDTO) {
+    public SupplierDetail(java.awt.Frame parent, boolean modal, SupplierDTO supplier) {
         super(parent, modal);
         initComponents();
-        this.supplierDTO = supplierDTO;
+        this.supplierDTO = supplier;
         setData(supplierDTO);
     }
     

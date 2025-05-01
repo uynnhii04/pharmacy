@@ -9,29 +9,29 @@ package com.pharmacy.app.DTO;
  * @author LENOVO
  */
 public class PurchaseOrderDetailsDTO {
-    public int poID;
-    public int medicineID;
+    public String poID;
+    public String medicineID;
     public int quantity;
 
-    public PurchaseOrderDetailsDTO(int poID, int medicineID, int quantity) {
+    public PurchaseOrderDetailsDTO(String poID, String medicineID, int quantity) {
         this.poID = poID;
         this.medicineID = medicineID;
         this.quantity = quantity;
     }
     
-        public int getPoID() {
+    public String getPoID() {
         return poID;
     }
 
-    public void setPoID(int poID) {
+    public void setPoID(String poID) {
         this.poID = poID;
     }
 
-    public int getMedicineID() {
+    public String getMedicineID() {
         return medicineID;
     }
 
-    public void setMedicineID(int medicineID) {
+    public void setMedicineID(String medicineID) {
         this.medicineID = medicineID;
     }
 
