@@ -301,7 +301,7 @@ public class AddPromo extends javax.swing.JDialog {
             // ==== Thông báo kết quả ====
             if (success) {
                 JOptionPane.showMessageDialog(this, "Thêm mã khuyến mãi thành công!");
-                homepromo.loadData();
+                homepromo.loadAllData();
                 dispose(); // Đóng form
             } else {
                 JOptionPane.showMessageDialog(this, "Thêm mã khuyến mãi thất bại!");

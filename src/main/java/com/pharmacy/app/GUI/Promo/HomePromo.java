@@ -22,13 +22,13 @@ import javax.swing.table.TableColumnModel;
  */
 public class HomePromo extends javax.swing.JPanel{
     private PromotionBUS promoBUS = new PromotionBUS(); // Lớp xử lý nghiệp vụ cho Promo
-    private ArrayList<PromotionDTO> promotionList = promoBUS.getAllPromos();
+    private ArrayList<PromotionDTO> promotionList = new ArrayList<>();
     private ArrayList<PromotionDTO> promotionListByType = new ArrayList<>();
 
     public HomePromo() {
         initComponents();
         setupTable();
-        loadData();
+        loadAllData();
         
         txtSearch.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -246,7 +246,7 @@ public class HomePromo extends javax.swing.JPanel{
     private void cbSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSortActionPerformed
         String selectedType = cbSort.getSelectedItem().toString();
         if (selectedType.equals("Tất cả")){
-            loadData();
+            loadAllData(); 
         } else {
             loadDataByType(selectedType);
         }
@@ -255,7 +255,7 @@ public class HomePromo extends javax.swing.JPanel{
     private void btnRefeshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefeshActionPerformed
         cbSort.setSelectedItem("Tất cả");
         txtSearch.setText("");
-        loadData();
+        loadAllData();
     }//GEN-LAST:event_btnRefeshActionPerformed
 
     
@@ -265,10 +265,10 @@ public class HomePromo extends javax.swing.JPanel{
         tblPromo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Chỉ cho phép chọn 1 dòng
     }
     
-    public void loadData() {
-        showDataToTable(promotionList);
-    }
+    // Dùng cho combobox
+
     
+    // Dùng cho combobox
     public void loadDataByType(String type) {
         promotionListByType = promoBUS.getPromosByType(type); // Lấy danh sách mã giảm giá từ PromoBUS
         showDataToTable(promotionListByType);
@@ -289,23 +289,35 @@ public class HomePromo extends javax.swing.JPanel{
             model.addRow(row);
         }
     }
+    
+    // Dùng cho
+    public void loadAllData() {
+        promotionList = promoBUS.getAllPromos();
+        showDataToTable(promotionList);
+    }
 
 
     private void showPromoDetails(int row) {
-        if (row >= 0 && row < promotionList.size()) {  // Kiểm tra chỉ số dòng hợp lệ
-            PromotionDTO promo = promotionList.get(row);  // Lấy đối tượng PromotionDTO từ danh sách
+        if (row >= 0 && row < promotionList.size()) {
+            String promoId = promotionList.get(row).getPromotionId();
 
-            // Mở cửa sổ chi tiết với đối tượng promo đã chọn
-            PromoDetail dialog = new PromoDetail(this, promo);
-            dialog.setVisible(true); // Hiển thị cửa sổ chi tiết
+            PromotionDTO promo = promoBUS.selectById(promoId);  // Lấy chi tiết từ DB
+
+            if (promo != null) {
+                PromoDetail dialog = new PromoDetail(this, promo);
+                dialog.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy thông tin khuyến mãi.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Dữ liệu không hợp lệ.", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     
     private void searchPromo() {
         String keyword = txtSearch.getText();
-        ArrayList<PromotionDTO> result = promoBUS.searchByName(keyword);
+        ArrayList<PromotionDTO> result = promoBUS.searchAll(keyword);
         showDataToTable(result);
     }
 

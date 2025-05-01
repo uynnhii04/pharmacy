@@ -21,7 +21,7 @@ public class PromotionDAO implements DAOinterface<PromotionDTO>{
         if (myconnect.openConnection()) {
             String sql = "SELECT TOP 1 promo_id FROM promotions ORDER BY promo_id DESC";
             try {
-                ResultSet rs = myconnect.runQuerry(sql);
+                ResultSet rs = myconnect.runQuery(sql);
                 if (rs != null && rs.next()) {
                     String lastId = rs.getString("promo_id"); // ví dụ: "KM015"
                     int num = Integer.parseInt(lastId.substring(1)) + 1;
@@ -128,7 +128,7 @@ public class PromotionDAO implements DAOinterface<PromotionDTO>{
         if (myconnect.openConnection()){
             String sql = "SELECT * FROM promotions WHERE is_deleted=0";
             
-            ResultSet rs = myconnect.runQuerry(sql);
+            ResultSet rs = myconnect.runQuery(sql);
             
             try {
                 while (rs != null && rs.next()){
@@ -157,7 +157,32 @@ public class PromotionDAO implements DAOinterface<PromotionDTO>{
 
     @Override
     public PromotionDTO selectByID(String t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        PromotionDTO promo = null;
+
+        if (myconnect.openConnection()) {
+            String sql = "SELECT * FROM promotions WHERE promo_id = ? AND is_deleted = 0";
+            try {
+
+                ResultSet rs = myconnect.runPreparedQuery(sql, t);
+                if (rs.next()) {
+                    promo = new PromotionDTO(
+                        rs.getString("promo_id"),
+                        rs.getString("promo_name"),
+                        rs.getString("promo_type"),
+                        rs.getFloat("percent_discount"),
+                        rs.getFloat("points_required"),
+                        rs.getDouble("points_to_money"),
+                        rs.getDate("start_date").toLocalDate(),
+                        rs.getDate("end_date").toLocalDate()
+                    );
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                myconnect.closeConnection();
+            }
+        }
+        return promo;
     }
 
     @Override

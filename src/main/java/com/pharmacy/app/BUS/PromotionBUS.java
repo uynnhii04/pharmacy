@@ -41,11 +41,20 @@ public class PromotionBUS {
         return promoDAO.getPromotionsByType(promoType);
     }
 
-    public ArrayList<PromotionDTO> searchByName(String keyword) {
-        ArrayList<PromotionDTO> promotionList = getAllPromos();
-        return promotionList.stream()
-        .filter(p -> p.getProgramName() != null &&
-                p.getProgramName().toLowerCase().contains(keyword.toLowerCase()))
-        .collect(Collectors.toCollection(ArrayList::new));
+    public ArrayList<PromotionDTO> searchAll(String keyword) {
+        return promoDAO.selectAll().stream()
+            .filter(p -> p.getPromotionId().toLowerCase().contains(keyword.toLowerCase()) ||
+                         p.getProgramName().toLowerCase().contains(keyword.toLowerCase()) ||
+                         p.getPromotionType().toLowerCase().contains(keyword.toLowerCase()) ||
+                         (p.getDiscountPercent() != null && String.valueOf(p.getDiscountPercent()).contains(keyword.toLowerCase())) ||
+                         (p.getMinAccumulatedPoints() != null && String.valueOf(p.getMinAccumulatedPoints()).contains(keyword.toLowerCase())) ||
+                         (p.getDiscountAmount() != null && String.valueOf(p.getDiscountAmount()).contains(keyword.toLowerCase())) ||
+                         p.getStartDate().toString().contains(keyword.toLowerCase()) ||
+                         p.getEndDate().toString().contains(keyword.toLowerCase()))
+            .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public PromotionDTO selectById(String promoId) {
+        return promoDAO.selectByID(promoId);
     }
 }

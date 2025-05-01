@@ -199,7 +199,7 @@ public class PromoDetail extends javax.swing.JDialog {
             boolean success = promoBUS.deletePromo(promoId);
             if (success) {
                 JOptionPane.showMessageDialog(this, "Xóa khuyến mãi thành công!");
-                homepromo.loadData(); // load lại danh sách sau khi xoá
+                homepromo.loadAllData(); // load lại danh sách sau khi xoá
                 dispose(); // Đóng form
 
             } else {
@@ -311,7 +311,7 @@ public class PromoDetail extends javax.swing.JDialog {
             // ==== Thông báo kết quả ====
             if (success) {
                 JOptionPane.showMessageDialog(this, "Sửa mã khuyến mãi thành công!");
-                homepromo.loadData();
+                homepromo.loadAllData();
                 dispose(); // Đóng form
             } else {
                 JOptionPane.showMessageDialog(this, "Sửa mã khuyến mãi thất bại!");

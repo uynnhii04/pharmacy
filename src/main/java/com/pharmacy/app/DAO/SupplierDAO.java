@@ -22,7 +22,7 @@ public class SupplierDAO {
 
         if (myconnect.openConnection()) {
             String sql = "SELECT * FROM suppliers";
-            ResultSet rs = myconnect.runQuerry(sql);
+            ResultSet rs = myconnect.runQuery(sql);
 
             try {
                 while (rs != null && rs.next()) {
