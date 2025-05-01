@@ -7,7 +7,7 @@ package com.pharmacy.app.GUI.Supplier;
 import com.pharmacy.app.BUS.SupplierBUS;
 import com.pharmacy.app.DTO.SupplierDTO;
 import com.pharmacy.app.DAO.SupplierDAO;
-import com.pharmacy.app.utils.ExportPDF;
+import com.pharmacy.app.Utils.ExportPDF;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
