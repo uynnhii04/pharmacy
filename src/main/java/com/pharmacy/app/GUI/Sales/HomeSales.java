@@ -43,9 +43,9 @@ public class HomeSales extends javax.swing.JPanel {
         btnRefresh = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblPromo = new javax.swing.JTable();
+        tblProduct = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
+        pnCart = new javax.swing.JPanel();
         jSpinner1 = new javax.swing.JSpinner();
         jTextField8 = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
@@ -161,8 +161,8 @@ public class HomeSales extends javax.swing.JPanel {
         jScrollPane2.setMinimumSize(new java.awt.Dimension(760, 510));
         jScrollPane2.setPreferredSize(new java.awt.Dimension(790, 250));
 
-        tblPromo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tblPromo.setModel(new javax.swing.table.DefaultTableModel(
+        tblProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"123", "Parnadol", "vỉ",  new Float(30000.0),  new Integer(200), "22/12/2025", null},
                 {null, null, null, null, null, null, null},
@@ -181,23 +181,23 @@ public class HomeSales extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        tblPromo.setMaximumSize(new java.awt.Dimension(750, 600));
-        tblPromo.setMinimumSize(new java.awt.Dimension(0, 0));
-        tblPromo.setPreferredSize(new java.awt.Dimension(790, 250));
-        tblPromo.setRowHeight(30);
-        tblPromo.setShowGrid(true);
-        tblPromo.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblProduct.setMaximumSize(new java.awt.Dimension(750, 600));
+        tblProduct.setMinimumSize(new java.awt.Dimension(0, 0));
+        tblProduct.setPreferredSize(new java.awt.Dimension(790, 250));
+        tblProduct.setRowHeight(30);
+        tblProduct.setShowGrid(true);
+        tblProduct.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                tblPromoMousePressed(evt);
+                tblProductMousePressed(evt);
             }
         });
-        jScrollPane2.setViewportView(tblPromo);
-        if (tblPromo.getColumnModel().getColumnCount() > 0) {
-            tblPromo.getColumnModel().getColumn(0).setPreferredWidth(15);
-            tblPromo.getColumnModel().getColumn(1).setPreferredWidth(100);
-            tblPromo.getColumnModel().getColumn(2).setPreferredWidth(10);
-            tblPromo.getColumnModel().getColumn(3).setPreferredWidth(15);
-            tblPromo.getColumnModel().getColumn(4).setPreferredWidth(10);
+        jScrollPane2.setViewportView(tblProduct);
+        if (tblProduct.getColumnModel().getColumnCount() > 0) {
+            tblProduct.getColumnModel().getColumn(0).setPreferredWidth(15);
+            tblProduct.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tblProduct.getColumnModel().getColumn(2).setPreferredWidth(10);
+            tblProduct.getColumnModel().getColumn(3).setPreferredWidth(15);
+            tblProduct.getColumnModel().getColumn(4).setPreferredWidth(10);
         }
 
         jPanel1.add(jScrollPane2);
@@ -211,34 +211,34 @@ public class HomeSales extends javax.swing.JPanel {
         jLabel2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jPanel1.add(jLabel2);
 
-        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel11.setPreferredSize(new java.awt.Dimension(790, 200));
+        pnCart.setBackground(new java.awt.Color(255, 255, 255));
+        pnCart.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pnCart.setPreferredSize(new java.awt.Dimension(790, 200));
 
         jTextField8.setText("Parnadol");
 
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnCartLayout = new javax.swing.GroupLayout(pnCart);
+        pnCart.setLayout(pnCartLayout);
+        pnCartLayout.setHorizontalGroup(
+            pnCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnCartLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
                 .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(588, Short.MAX_VALUE))
         );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
+        pnCartLayout.setVerticalGroup(
+            pnCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnCartLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(154, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel11);
+        jPanel1.add(pnCart);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setPreferredSize(new java.awt.Dimension(750, 50));
@@ -491,9 +491,9 @@ public class HomeSales extends javax.swing.JPanel {
         add(jTabbedPane1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblPromoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPromoMousePressed
+    private void tblProductMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblPromoMousePressed
+    }//GEN-LAST:event_tblProductMousePressed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         // TODO add your handling code here:
@@ -532,7 +532,6 @@ public class HomeSales extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
@@ -562,7 +561,8 @@ public class HomeSales extends javax.swing.JPanel {
     private javax.swing.JLabel lblTotalProductPrice;
     private javax.swing.JLabel lblVoucher;
     private javax.swing.JLabel lblVoucherDiscount;
-    private javax.swing.JTable tblPromo;
+    private javax.swing.JPanel pnCart;
+    private javax.swing.JTable tblProduct;
     private javax.swing.JTable tblPromo1;
     private javax.swing.JTextField txtNameCustomer;
     private javax.swing.JTextField txtPhoneCustomer;
