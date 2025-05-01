@@ -98,38 +98,51 @@ public class MedicalProductsDAO implements DAOinterface<MedicalProductsDTO>{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
         
-public MedicalProductsDTO getProductbyID(String product_ID){
-    if(myconnect.openConnection()){
-        try {
-            String sql = "SELECT p.*, c.category_name FROM medical_products p " + 
-                         "JOIN categories c ON p.category_id = c.category_id " + 
-                         "WHERE p.product_id = ?";
+    public MedicalProductsDTO getProductbyID(String product_ID){
+        if(myconnect.openConnection()){
+            try {
+                String sql = "SELECT p.*, c.category_name FROM medical_products p " + 
+                             "JOIN categories c ON p.category_id = c.category_id " + 
+                             "WHERE p.product_id = ?";
 
-            PreparedStatement ps = myconnect.con.prepareStatement(sql);
-            ps.setString(1, product_ID);
+                PreparedStatement ps = myconnect.con.prepareStatement(sql);
+                ps.setString(1, product_ID);
 
-            ResultSet rs = ps.executeQuery();
-            
-            if (rs.next()) {
-                MedicalProductsDTO product = new MedicalProductsDTO();
-                
-                product.setMedicineID(rs.getString("product_id"));
-                product.setName(rs.getString("name"));
-                product.setCategory(rs.getString("category_name")); 
-                product.setDescription(rs.getString("description"));
-                product.setPackingSpecification(rs.getString("packing_specification"));
-                product.setUnit(rs.getString("unit"));
-                product.setQuantity(rs.getInt("quantity"));
-                product.setStatus(rs.getBoolean("is_deleted"));
-                
-                return product;
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    MedicalProductsDTO product = new MedicalProductsDTO();
+
+                    product.setMedicineID(rs.getString("product_id"));
+                    product.setName(rs.getString("name"));
+                    product.setCategory(rs.getString("category_name")); 
+                    product.setDescription(rs.getString("description"));
+                    product.setPackingSpecification(rs.getString("packing_specification"));
+                    product.setUnit(rs.getString("unit"));
+                    product.setQuantity(rs.getInt("quantity"));
+                    product.setStatus(rs.getBoolean("is_deleted"));
+
+                    return product;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                myconnect.closeConnection();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        return null; 
+    }
+    public void updateSumQuantity(String productId, int quantity) {
+    if (myconnect.openConnection()) {
+        try {
+            String sql = "UPDATE medical_products SET quantity = ? WHERE product_id = ?";
+            myconnect.prepareUpdate(sql, quantity, productId);
+            
         } finally {
             myconnect.closeConnection();
         }
     }
-    return null; 
 }
+
+    
 }

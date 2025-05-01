@@ -13,11 +13,11 @@ import java.util.ArrayList;
  * @author LENOVO
  */
 public class MedicalProductsBUS {
-    private MedicalProductsDAO product = new MedicalProductsDAO();
+    private MedicalProductsDAO productDAO = new MedicalProductsDAO();
     
     public ArrayList<MedicalProductsDTO> getAllProducts (){
         try{
-            return product.selectAll();
+            return productDAO.selectAll();
         }catch(Exception e){
             e.printStackTrace();
             return null;
@@ -26,7 +26,7 @@ public class MedicalProductsBUS {
     
     public String getMedicineNameByID(String medicineID) {
         try {
-            return product.getProductbyID(medicineID).getName();
+            return productDAO.getProductbyID(medicineID).getName();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -39,6 +39,13 @@ public class MedicalProductsBUS {
                 return product;
             }
         }
-        return product.getProductbyID(productID);
+        return productDAO.getProductbyID(productID);
+    }
+    
+    public void saleQuantity(int quan, String ID){
+        MedicalProductsDTO pd = productDAO.getProductbyID(ID);
+        pd.setQuantity(pd.getQuantity()- quan);
+        int newQuantity = pd.getQuantity();
+        productDAO.updateSumQuantity(ID, newQuantity);
     }
 }

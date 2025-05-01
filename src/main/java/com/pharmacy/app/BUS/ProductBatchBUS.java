@@ -6,6 +6,7 @@ package com.pharmacy.app.BUS;
 
 import com.pharmacy.app.DAO.ProductBatchDAO;
 import com.pharmacy.app.DTO.ProductBatchDTO;
+import com.pharmacy.app.GUI.Product.MedicalProducts;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class ProductBatchBUS {
     private ProductBatchDAO batchDAO = new ProductBatchDAO();
     private ProductBatchDTO batchDTO = new ProductBatchDTO();
-
+    private MedicalProductsBUS productBUS = new MedicalProductsBUS();
     public ArrayList<ProductBatchDTO> getAllBatches(){
         try {
             return batchDAO.selectAll();
@@ -49,7 +50,13 @@ public class ProductBatchBUS {
     
     public boolean saleBatchQuantity(int quan){
         if(quan <= batchDTO.getQuantityInStock()){
+            
             batchDTO.setQuantityInStock(batchDTO.getQuantityInStock() - quan);
+            int newQuantity = batchDTO.getQuantityInStock();
+            
+            productBUS.saleQuantity(quan, batchDTO.getMedicineID());
+            batchDAO.updateBatchQuantity(batchDTO.getMedicineID(), newQuantity);
+            
             return true;
         }else return false;
     }

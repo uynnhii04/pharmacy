@@ -9,7 +9,6 @@ import com.pharmacy.app.DTO.ProductBatchDTO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -78,5 +77,19 @@ public class ProductBatchDAO implements DAOinterface<ProductBatchDTO>{
     public ArrayList<ProductBatchDTO> search(String t) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    public void updateBatchQuantity(String productId, int quantity) {
+    if (myconnect.openConnection()) {
+        try {
+            String sql = "UPDATE product_batches SET inventory_quantity = ? WHERE product_id = ?";
+            myconnect.prepareUpdate(sql, quantity, productId);
+            
+        } finally {
+            myconnect.closeConnection();
+        }
+    }
+}
+
+}
 
 }
