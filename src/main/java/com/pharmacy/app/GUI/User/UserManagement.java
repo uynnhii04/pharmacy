@@ -62,7 +62,7 @@ public class UserManagement extends javax.swing.JPanel {
         });
         pnlUser1.add(txtSearchUser);
 
-        cbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Hoạt động", "Ngừng hoạt động", "Admin", "Quản lý", "Nhân viên" }));
+        cbUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Hoạt động", "Ngừng hoạt động", "Quản lý", "Nhân viên" }));
         cbUser.setFocusable(false);
         cbUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

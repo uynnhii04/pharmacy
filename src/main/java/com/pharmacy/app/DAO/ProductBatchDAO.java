@@ -40,7 +40,7 @@ public class ProductBatchDAO implements DAOinterface<ProductBatchDTO>{
             myconnect.openConnection();
             
             String sql = "SELECT * FROM product_batches WHERE is_deleted = 0";
-            PreparedStatement ps = myconnect.getConnection().prepareStatement(sql);
+            PreparedStatement ps = myconnect.con.prepareStatement(sql);
             
             ResultSet rs = ps.executeQuery();
              

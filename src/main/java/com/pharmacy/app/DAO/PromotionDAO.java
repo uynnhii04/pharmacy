@@ -21,7 +21,7 @@ public class PromotionDAO implements DAOinterface<PromotionDTO>{
         if (myconnect.openConnection()) {
             String sql = "SELECT TOP 1 promo_id FROM promotions ORDER BY promo_id DESC";
             try {
-                ResultSet rs = myconnect.runQuerry(sql);
+                ResultSet rs = myconnect.runQuery(sql);
                 if (rs != null && rs.next()) {
                     String lastId = rs.getString("promo_id"); // ví dụ: "KM015"
                     int num = Integer.parseInt(lastId.substring(1)) + 1;
@@ -128,7 +128,7 @@ public class PromotionDAO implements DAOinterface<PromotionDTO>{
         if (myconnect.openConnection()){
             String sql = "SELECT * FROM promotions WHERE is_deleted=0";
             
-            ResultSet rs = myconnect.runQuerry(sql);
+            ResultSet rs = myconnect.runQuery(sql);
             
             try {
                 while (rs != null && rs.next()){
